@@ -4,8 +4,36 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('app.name', 'Rural2Rural') }} — Delivering Real Opportunities to Rural Communities</title>
-        <meta name="description" content="Rural2Rural Skills, Jobs, Careers and Entrepreneurship Initiative travels across rural South Africa educating, training, exposing and advising youth, women, small businesses and people living with disabilities.">
+        @php
+            $pageTitle = config('app.name', 'Rural2Rural').' — Delivering Real Opportunities to Rural Communities';
+            $pageDescription = 'Rural2Rural Skills, Jobs, Careers and Entrepreneurship Initiative travels across rural South Africa educating, training, exposing and advising youth, women, small businesses and people living with disabilities.';
+            $shareImage = asset('images/og/rural2rural-og.png');
+        @endphp
+        <title>{{ $pageTitle }}</title>
+        <meta name="description" content="{{ $pageDescription }}">
+        <link rel="canonical" href="{{ route('home') }}">
+
+        {{-- Open Graph (Facebook, WhatsApp, LinkedIn) --}}
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Rural2Rural">
+        <meta property="og:locale" content="en_ZA">
+        <meta property="og:url" content="{{ route('home') }}">
+        <meta property="og:title" content="{{ $pageTitle }}">
+        <meta property="og:description" content="{{ $pageDescription }}">
+        <meta property="og:image" content="{{ $shareImage }}">
+        <meta property="og:image:secure_url" content="{{ $shareImage }}">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="Rural2Rural — Delivering real opportunities to rural communities across South Africa">
+
+        {{-- X / Twitter --}}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@Rural2Rural">
+        <meta name="twitter:title" content="{{ $pageTitle }}">
+        <meta name="twitter:description" content="{{ $pageDescription }}">
+        <meta name="twitter:image" content="{{ $shareImage }}">
+        <meta name="twitter:image:alt" content="Rural2Rural — Delivering real opportunities to rural communities across South Africa">
         <meta name="theme-color" content="#0c1035">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="icon" type="image/png" href="{{ asset('images/r2r/mark.png') }}">
@@ -24,18 +52,22 @@
             ['label' => 'Programmes', 'href' => '#programmes', 'count' => count(config('rural2rural.programmes'))],
             ['label' => 'How We Work', 'href' => '#approach', 'count' => 3],
             ['label' => 'On the Road', 'href' => '#events', 'count' => null],
+            ['label' => 'Partners', 'href' => '#partners', 'count' => count(config('rural2rural.partners'))],
             ['label' => 'Contact', 'href' => '#contact', 'count' => null],
         ];
 
         $pillars = config('rural2rural.pillars');
         $programmes = config('rural2rural.programmes');
         $events = config('rural2rural.events');
+        $partners = config('rural2rural.partners');
 
         $searchIndex = [
             ['title' => 'Who we are', 'kind' => 'Section', 'href' => '#about', 'keywords' => 'about mission rural south africa youth women disabilities'],
             ['title' => 'Programme pillars', 'kind' => 'Section', 'href' => '#programmes', 'keywords' => 'careers skills entrepreneurship teachers'],
             ['title' => 'How we work', 'kind' => 'Section', 'href' => '#approach', 'keywords' => 'roadshows included opportunity'],
             ['title' => 'On the road', 'kind' => 'Section', 'href' => '#events', 'keywords' => 'events map expo past'],
+            ['title' => 'Our partners', 'kind' => 'Section', 'href' => '#partners', 'keywords' => 'seta sponsors supporters funders'],
+            ...collect($partners)->map(fn (array $partner): array => ['title' => $partner['name'], 'kind' => 'Partner', 'href' => '#partners', 'keywords' => $partner['description']])->all(),
             ['title' => 'Partner with us', 'kind' => 'Section', 'href' => '#partner', 'keywords' => 'sponsor host roadshow municipality partnership'],
             ['title' => 'Contact', 'kind' => 'Section', 'href' => '#contact', 'keywords' => 'address phone email office centurion'],
             ...collect($pillars)->map(fn (array $pillar): array => ['title' => $pillar['title'], 'kind' => 'Pillar', 'href' => '#programmes', 'keywords' => $pillar['body']])->all(),
@@ -65,7 +97,7 @@
                     </span>
                 </a>
 
-                <nav class="hidden items-center gap-9 lg:flex" aria-label="Primary">
+                <nav class="hidden items-center gap-6 lg:flex xl:gap-9" aria-label="Primary">
                     @foreach ($navigation as $item)
                         <a href="{{ $item['href'] }}" class="font-mono text-[11px] tracking-[0.08em] text-white/85 uppercase transition-colors group-[.is-light]/header:text-navy/80 hover:text-green">{{ $item['label'] }}</a>
                     @endforeach
@@ -481,7 +513,39 @@
                 </div>
             </section>
 
-            {{-- ─────────────── 09 · Work with us (blue block) ─────────────── --}}
+            {{-- ─────────────── 09 · Partners ─────────────── --}}
+            <section id="partners" data-header="light" class="overflow-hidden bg-paper text-navy" aria-labelledby="partners-title">
+                <div data-reveal class="grid gap-8 px-4 pt-24 pb-14 sm:px-8 lg:grid-cols-[1fr_2.4fr] lg:pt-28 lg:pr-12 lg:pl-[136px]">
+                    <p class="tag fade-up text-blue">Our<br>// partners</p>
+                    <div class="grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+                        <h2 id="partners-title" class="fade-up max-w-xl text-[clamp(1.8rem,3.2vw,2.8rem)] leading-[1.1] tracking-[-0.025em] delay-100">Backed by partners who believe in rural talent.</h2>
+                        <p class="fade-up max-w-sm text-[14px] leading-relaxed text-navy/70 delay-200">Sector education and training authorities, foundations and community media help us take skills, jobs and careers to rural South Africa.</p>
+                    </div>
+                </div>
+
+                {{-- Logo strip: two copies loop seamlessly; pauses on hover --}}
+                <div class="relative pb-24 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+                    <ul class="animate-marquee flex w-max gap-4 motion-reduce:w-auto motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:px-4">
+                        @foreach ([false, true] as $isDuplicate)
+                            @foreach ($partners as $partner)
+                                <li @if ($isDuplicate) aria-hidden="true" class="motion-reduce:hidden" @endif>
+                                    <figure class="group flex h-44 w-64 flex-col bg-white ring-1 ring-navy/10 transition duration-500 ease-out-expo hover:-translate-y-1 hover:shadow-[0_24px_50px_-28px_rgba(41,49,121,0.45)] hover:ring-blue/40">
+                                        <div class="flex flex-1 items-center justify-center p-6">
+                                            <img src="{{ asset('images/partners/'.$partner['logo']) }}" alt="{{ $isDuplicate ? '' : $partner['name'].' logo' }}" loading="lazy" class="max-h-24 w-auto max-w-full object-contain">
+                                        </div>
+                                        <figcaption class="flex items-center justify-between gap-3 border-t border-navy/10 px-4 py-2.5">
+                                            <span class="truncate font-mono text-[9px] tracking-[0.08em] text-navy/60 uppercase">{{ $partner['description'] }}</span>
+                                            <span class="size-1.5 shrink-0 bg-green transition-transform duration-500 group-hover:scale-150" aria-hidden="true"></span>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                            @endforeach
+                        @endforeach
+                    </ul>
+                </div>
+            </section>
+
+            {{-- ─────────────── 10 · Work with us (blue block) ─────────────── --}}
             <section id="partner" class="bg-paper" aria-labelledby="partner-title" data-header="light">
                 <div data-reveal class="grid gap-2 py-6" aria-hidden="true">
                     <span class="stripe h-3 bg-blue"></span>
@@ -507,7 +571,7 @@
                 </div>
             </section>
 
-            {{-- ─────────────── 10 · Closing glow ─────────────── --}}
+            {{-- ─────────────── 11 · Closing glow ─────────────── --}}
             <section class="relative isolate overflow-hidden border-t border-white/10 bg-night" aria-labelledby="closing-title">
                 <x-rail />
                 <div class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[140%] bg-[radial-gradient(ellipse_at_50%_100%,var(--color-green)_0%,var(--color-blue)_35%,transparent_70%)] opacity-80" aria-hidden="true"></div>
@@ -548,7 +612,7 @@
                         <nav aria-label="Organisation">
                             <h3 class="{{ $headingClass }}">// Organisation</h3>
                             <ul class="grid gap-2.5">
-                                @foreach (['Who We Are' => '#about', 'How We Work' => '#approach', 'On the Road' => '#events', 'Partner With Us' => '#partner'] as $label => $href)
+                                @foreach (['Who We Are' => '#about', 'How We Work' => '#approach', 'On the Road' => '#events', 'Our Partners' => '#partners', 'Partner With Us' => '#partner'] as $label => $href)
                                     <li><a href="{{ $href }}" class="{{ $linkClass }}">{{ $label }}</a></li>
                                 @endforeach
                             </ul>

@@ -86,6 +86,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Partners
+    |--------------------------------------------------------------------------
+    |
+    | Logos live in public/images/partners.
+    |
+    */
+
+    'partners' => [
+        ['name' => 'EWSETA', 'description' => 'Energy and Water Sector Education and Training Authority', 'logo' => 'ewseta.png'],
+        ['name' => 'FP&M SETA', 'description' => 'Fibre Processing & Manufacturing Sector Education and Training Authority', 'logo' => 'fpm-seta.png'],
+        ['name' => 'TETA', 'description' => 'Transport Education Training Authority', 'logo' => 'teta.png'],
+        ['name' => 'Zakhele N Foundation', 'description' => 'Career Accelerators', 'logo' => 'zakhele-n-foundation.png'],
+        ['name' => 'Nongoma FM 88.3', 'description' => 'Community radio station', 'logo' => 'nongoma-fm.png'],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Past Events
     |--------------------------------------------------------------------------
     */

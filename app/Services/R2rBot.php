@@ -62,6 +62,7 @@ class R2rBot
         $mission = collect($site['mission'])->map(fn (string $line): string => "- {$line}")->implode("\n");
         $pillars = collect($site['pillars'])->map(fn (array $pillar): string => "- {$pillar['title']}: {$pillar['body']}")->implode("\n");
         $programmes = collect($site['programmes'])->map(fn (array $programme): string => "- {$programme['title']} ({$programme['pillar']})")->implode("\n");
+        $partners = collect($site['partners'])->map(fn (array $partner): string => "- {$partner['name']} ({$partner['description']})")->implode("\n");
         $events = collect($site['events'])->map(fn (array $event): string => "- {$event['title']}, {$event['place']}, {$event['date']}")->implode("\n");
         $social = collect($site['social'])->map(fn (string $url, string $name): string => "- {$name}: {$url}")->implode("\n");
         $address = implode(', ', $contact['address']);
@@ -88,6 +89,10 @@ class R2rBot
         <programmes>
         {$programmes}
         </programmes>
+
+        <partners>
+        {$partners}
+        </partners>
 
         <past_events>
         {$events}
