@@ -4,36 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        @php
-            $pageTitle = config('app.name', 'Rural2Rural').' — Delivering Real Opportunities to Rural Communities';
-            $pageDescription = 'Rural2Rural Skills, Jobs, Careers and Entrepreneurship Initiative travels across rural South Africa educating, training, exposing and advising youth, women, small businesses and people living with disabilities.';
-            $shareImage = asset('images/og/rural2rural-og.png');
-        @endphp
-        <title>{{ $pageTitle }}</title>
-        <meta name="description" content="{{ $pageDescription }}">
-        <link rel="canonical" href="{{ route('home') }}">
-
-        {{-- Open Graph (Facebook, WhatsApp, LinkedIn) --}}
-        <meta property="og:type" content="website">
-        <meta property="og:site_name" content="Rural2Rural">
-        <meta property="og:locale" content="en_ZA">
-        <meta property="og:url" content="{{ route('home') }}">
-        <meta property="og:title" content="{{ $pageTitle }}">
-        <meta property="og:description" content="{{ $pageDescription }}">
-        <meta property="og:image" content="{{ $shareImage }}">
-        <meta property="og:image:secure_url" content="{{ $shareImage }}">
-        <meta property="og:image:type" content="image/png">
-        <meta property="og:image:width" content="1200">
-        <meta property="og:image:height" content="630">
-        <meta property="og:image:alt" content="Rural2Rural — Delivering real opportunities to rural communities across South Africa">
-
-        {{-- X / Twitter --}}
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:site" content="@Rural2Rural">
-        <meta name="twitter:title" content="{{ $pageTitle }}">
-        <meta name="twitter:description" content="{{ $pageDescription }}">
-        <meta name="twitter:image" content="{{ $shareImage }}">
-        <meta name="twitter:image:alt" content="Rural2Rural — Delivering real opportunities to rural communities across South Africa">
+        <x-seo />
         <meta name="theme-color" content="#0c1035">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="icon" type="image/png" href="{{ asset('images/r2r/mark.png') }}">

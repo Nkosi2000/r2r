@@ -38,6 +38,32 @@ return [
             'Pretoria, South Africa',
             '0163',
         ],
+        'postal' => [
+            'street_address' => 'Corporate Park 66, 66 Von Willich Ave, Die Hoewes',
+            'locality' => 'Centurion',
+            'region' => 'Gauteng',
+            'postal_code' => '0163',
+            'country_name' => 'South Africa',
+            'country_code' => 'ZA',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Search & Social Sharing
+    |--------------------------------------------------------------------------
+    |
+    | Used for the page title, meta description, Open Graph / Twitter cards
+    | and schema.org structured data.
+    |
+    */
+
+    'seo' => [
+        'title' => 'Rural2Rural — Delivering Real Opportunities to Rural Communities',
+        'share_title' => 'Rural2Rural (R2R) | Skills, Jobs, Careers & Entrepreneurship Initiative',
+        'description' => 'Rural2Rural (R2R) travels across rural South Africa delivering career guidance, skills training, entrepreneurship support and teacher development to youth, women, small businesses and people living with disabilities. 10+ years on the road. Based in Centurion, Gauteng.',
+        'slogan' => 'Delivering real opportunities to rural communities',
+        'keywords' => 'Rural2Rural, R2R, rural development South Africa, career guidance, skills development, youth employment, entrepreneurship, SMME support, teacher development, career expo',
     ],
 
     /*
