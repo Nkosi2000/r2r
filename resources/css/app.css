@@ -4,6 +4,209 @@
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: var(--font-inter-tight), 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+    /* Rural2Rural logo palette */
+    --color-navy: #293179;
+    --color-navy-deep: #161c4f;
+    --color-night: #0c1035;
+    --color-blue: #2f64a8;
+    --color-sky: #3ea4d8;
+    --color-green: #7dbf45;
+    --color-lime: #a6d77a;
+    --color-paper: #f4f6fa;
+
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-night font-sans text-white antialiased;
+    }
+
+    ::selection {
+        @apply bg-green text-night;
+    }
+}
+
+@layer components {
+    /* Two-line mono tag, e.g. "HOW IT // WORKS" */
+    .tag {
+        @apply font-mono text-[10px] leading-[1.35] font-medium tracking-[0.08em] text-green uppercase;
+    }
+
+    /* Hatched gutter used on the left rail */
+    .hatch {
+        background-image: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.07) 0 1px, transparent 1px 7px);
+    }
+
+    /* Fine horizontal scanlines laid over glass cards and glows */
+    .scanlines {
+        background-image: repeating-linear-gradient(0deg, rgb(255 255 255 / 0.06) 0 1px, transparent 1px 3px);
+    }
+
+    /* Grid of small "+" crosshair markers */
+    .plus-grid {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88'%3E%3Cpath d='M44 40v8M40 44h8' stroke='white' stroke-opacity='.35' stroke-width='1'/%3E%3C/svg%3E");
+    }
+
+    /* Dotted glow texture used in the closing section */
+    .dot-screen {
+        background-image: radial-gradient(circle, rgb(255 255 255 / 0.22) 0.8px, transparent 1.2px);
+        background-size: 4px 4px;
+    }
+
+    /* Glass card with logo-colour gradient, inner frame and scanlines */
+    .glass-card {
+        @apply relative overflow-hidden p-[14px];
+        background: linear-gradient(135deg, var(--color-sky), var(--color-blue) 45%, var(--color-green));
+    }
+
+    .glass-card::before {
+        @apply pointer-events-none absolute inset-0 content-[''];
+        background-image: repeating-linear-gradient(0deg, rgb(255 255 255 / 0.09) 0 1px, transparent 1px 3px);
+    }
+
+    .glass-card > .glass-inner {
+        @apply relative h-full bg-white/10 ring-1 ring-white/25 backdrop-blur-sm;
+    }
+
+    /* Rail node: small square marker sitting on section hairlines */
+    .rail-node {
+        @apply absolute top-0 left-[88px] hidden size-[5px] -translate-x-1/2 -translate-y-1/2 bg-green lg:block;
+        box-shadow: 0 0 0 4px rgb(125 191 69 / 0.15);
+    }
+
+    /* Line-by-line headline reveal */
+    .reveal-line {
+        @apply block overflow-hidden pb-[0.08em];
+    }
+
+    .reveal-line > span {
+        @apply block translate-y-[110%] transition-transform duration-[1400ms] ease-out-expo;
+    }
+
+    .is-revealed .reveal-line > span {
+        @apply translate-y-0;
+    }
+
+    .fade-up {
+        @apply translate-y-6 opacity-0 transition duration-1000 ease-out-expo;
+    }
+
+    .is-revealed .fade-up,
+    .fade-up.is-revealed {
+        @apply translate-y-0 opacity-100;
+    }
+
+    /* Stripe bands grow in from the left */
+    .stripe {
+        @apply origin-left scale-x-0 transition-transform duration-[1600ms] ease-out-expo;
+    }
+
+    .is-revealed .stripe {
+        @apply scale-x-100;
+    }
+
+    /* Scroll-driven word highlight */
+    .scrub-word {
+        @apply transition-opacity duration-300;
+        opacity: 0.25;
+    }
+
+    .scrub-word.is-lit {
+        opacity: 1;
+    }
+
+    /* Rosette line art draws itself in */
+    .rosette path {
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        transition: stroke-dashoffset 2.4s var(--ease-out-expo);
+    }
+
+    .is-revealed .rosette path {
+        stroke-dashoffset: 0;
+    }
+
+    /* Network lines on the map draw in */
+    .route {
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        transition: stroke-dashoffset 1.8s var(--ease-out-expo);
+    }
+
+    .is-revealed .route {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes spin-slow {
+    to {
+        rotate: 360deg;
+    }
+}
+
+@keyframes pulse-ring {
+    0% {
+        scale: 1;
+        opacity: 0.7;
+    }
+
+    100% {
+        scale: 3.2;
+        opacity: 0;
+    }
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.25;
+    }
+}
+
+.animate-spin-slow {
+    animation: spin-slow 28s linear infinite;
+}
+
+.animate-spin-reverse {
+    animation: spin-slow 40s linear infinite reverse;
+}
+
+.animate-pulse-ring {
+    animation: pulse-ring 2.4s ease-out infinite;
+}
+
+.animate-blink {
+    animation: blink 1.4s steps(2) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .reveal-line > span,
+    .fade-up,
+    .stripe {
+        @apply translate-y-0 scale-x-100 opacity-100 transition-none;
+    }
+
+    .rosette path,
+    .route {
+        stroke-dashoffset: 0;
+        transition: none;
+    }
+
+    .animate-spin-slow,
+    .animate-spin-reverse,
+    .animate-pulse-ring,
+    .animate-blink {
+        animation: none;
+    }
 }
