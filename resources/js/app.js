@@ -3,6 +3,9 @@ import { DotMatrix } from './effects/dot-matrix';
 import { DotWave } from './effects/dot-wave';
 import { drawRosettes } from './effects/rosette';
 import { prefersReducedMotion } from './effects/visibility';
+import { initBackToTop } from './ui/back-to-top';
+import { initR2rBot } from './ui/r2rbot';
+import { initSearch } from './ui/search';
 
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 
@@ -247,9 +250,12 @@ function initMobileMenu() {
 drawRosettes();
 initCanvases();
 initReveals();
-initScrollUpdates(initScrubText(), initHeader());
+initScrollUpdates(initScrubText(), initHeader(), initBackToTop());
 initPillars();
 initProgrammeList();
 initPixelBlocks();
 initHeroGlow();
 initMobileMenu();
+
+const r2rBot = initR2rBot();
+initSearch({ askBot: r2rBot ? (question) => r2rBot.open(question) : undefined });

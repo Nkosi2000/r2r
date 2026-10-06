@@ -7,6 +7,7 @@
         <title>{{ config('app.name', 'Rural2Rural') }} — Delivering Real Opportunities to Rural Communities</title>
         <meta name="description" content="Rural2Rural Skills, Jobs, Careers and Entrepreneurship Initiative travels across rural South Africa educating, training, exposing and advising youth, women, small businesses and people living with disabilities.">
         <meta name="theme-color" content="#0c1035">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="icon" type="image/png" href="{{ asset('images/r2r/mark.png') }}">
 
         @fonts
@@ -20,36 +21,29 @@
 
         $navigation = [
             ['label' => 'Who We Are', 'href' => '#about', 'count' => null],
-            ['label' => 'Programmes', 'href' => '#programmes', 'count' => 10],
+            ['label' => 'Programmes', 'href' => '#programmes', 'count' => count(config('rural2rural.programmes'))],
             ['label' => 'How We Work', 'href' => '#approach', 'count' => 3],
             ['label' => 'On the Road', 'href' => '#events', 'count' => null],
             ['label' => 'Contact', 'href' => '#contact', 'count' => null],
         ];
 
-        $pillars = [
-            ['step' => 'First', 'verb' => 'Careers', 'figure' => 'bloom', 'title' => 'Careers & Job Opportunities', 'body' => 'Career development roadshows, tutoring and guidance that open real career paths.'],
-            ['step' => 'Second', 'verb' => 'Skills', 'figure' => 'orbit', 'title' => 'Skills Training Workshops', 'body' => 'Soft skills, employability and work-readiness training for rural youth.'],
-            ['step' => 'Third', 'verb' => 'Enterprise', 'figure' => 'burst', 'title' => 'Entrepreneurship Opportunities', 'body' => 'Roadshows, trainings, pitch competitions and SMME coaching & mentoring.'],
-            ['step' => 'Last', 'verb' => 'Teachers', 'figure' => 'seed', 'title' => 'Teacher Development Programmes', 'body' => 'Capacitation workshops distributed across rural communities and municipalities.'],
-        ];
+        $pillars = config('rural2rural.pillars');
+        $programmes = config('rural2rural.programmes');
+        $events = config('rural2rural.events');
 
-        $programmes = [
-            ['title' => 'Career Development Programme & Roadshow', 'pillar' => 'Careers'],
-            ['title' => 'R2R Tutor Programme', 'pillar' => 'Maths · Science · Accounting'],
-            ['title' => 'Teachers Capacitation Programme', 'pillar' => 'Teachers'],
-            ['title' => 'Rural Teachers Summit', 'pillar' => 'Teachers'],
-            ['title' => 'Entrepreneurship Opportunities Roadshow', 'pillar' => 'Enterprise'],
-            ['title' => 'Business Idea Pitch Competition', 'pillar' => 'Enterprise'],
-            ['title' => 'Rural SMME Coaching & Mentoring', 'pillar' => 'Enterprise'],
-            ['title' => 'Skills & Job Opportunities Roadshow', 'pillar' => 'Skills'],
-            ['title' => 'Work-Readiness & Soft Skills Programme', 'pillar' => 'Skills'],
-            ['title' => 'Skills & Job Application Centre', 'pillar' => 'Skills'],
-        ];
-
-        $events = [
-            ['title' => 'Careers & Skills Expo', 'place' => 'Ficksburg', 'date' => '17 Aug 2018'],
-            ['title' => 'Careers & Skills Expo', 'place' => 'Jozini', 'date' => '03 Aug 2018'],
-            ['title' => 'R2R Career Development', 'place' => 'Northern Cape', 'date' => '19 Oct 2017'],
+        $searchIndex = [
+            ['title' => 'Who we are', 'kind' => 'Section', 'href' => '#about', 'keywords' => 'about mission rural south africa youth women disabilities'],
+            ['title' => 'Programme pillars', 'kind' => 'Section', 'href' => '#programmes', 'keywords' => 'careers skills entrepreneurship teachers'],
+            ['title' => 'How we work', 'kind' => 'Section', 'href' => '#approach', 'keywords' => 'roadshows included opportunity'],
+            ['title' => 'On the road', 'kind' => 'Section', 'href' => '#events', 'keywords' => 'events map expo past'],
+            ['title' => 'Partner with us', 'kind' => 'Section', 'href' => '#partner', 'keywords' => 'sponsor host roadshow municipality partnership'],
+            ['title' => 'Contact', 'kind' => 'Section', 'href' => '#contact', 'keywords' => 'address phone email office centurion'],
+            ...collect($pillars)->map(fn (array $pillar): array => ['title' => $pillar['title'], 'kind' => 'Pillar', 'href' => '#programmes', 'keywords' => $pillar['body']])->all(),
+            ...collect($programmes)->map(fn (array $programme): array => ['title' => $programme['title'], 'kind' => 'Programme', 'href' => '#programmes', 'keywords' => $programme['pillar']])->all(),
+            ...collect($events)->map(fn (array $event): array => ['title' => $event['title'].' · '.$event['place'], 'kind' => 'Event', 'href' => '#events', 'keywords' => $event['date']])->all(),
+            ['title' => 'Email '.$contact['email'], 'kind' => 'Contact', 'href' => 'mailto:'.$contact['email'], 'keywords' => 'email mail message'],
+            ['title' => 'Call '.$contact['phone'], 'kind' => 'Contact', 'href' => 'tel:'.str_replace(' ', '', $contact['phone']), 'keywords' => 'phone call telephone office'],
+            ['title' => 'Mobile '.$contact['mobile'], 'kind' => 'Contact', 'href' => 'tel:'.str_replace(' ', '', $contact['mobile']), 'keywords' => 'mobile cell whatsapp phone'],
         ];
 
         $fieldPhotos = [
@@ -78,6 +72,10 @@
                 </nav>
 
                 <div class="flex items-center gap-3">
+                    <button type="button" data-search-open class="flex h-9 items-center gap-2 border border-white/25 px-2.5 text-white transition-colors group-[.is-light]/header:border-navy/30 group-[.is-light]/header:text-navy hover:border-green hover:text-green" aria-label="Search the site" aria-keyshortcuts="Control+K /">
+                        <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="7" cy="7" r="4.5" /><path d="m10.5 10.5 3.5 3.5" /></svg>
+                        <kbd class="hidden font-mono text-[10px] tracking-[0.06em] opacity-60 xl:inline">Ctrl K</kbd>
+                    </button>
                     <a href="{{ $mailPartner }}" class="hidden font-mono text-[11px] tracking-[0.08em] text-green uppercase underline decoration-green/60 underline-offset-4 hover:decoration-green sm:inline">Partner with us</a>
                     <button type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" class="flex h-9 items-center gap-2 border border-white/25 px-3 font-mono text-[11px] tracking-[0.08em] text-white uppercase group-[.is-light]/header:border-navy/30 group-[.is-light]/header:text-navy lg:hidden">
                         <span data-menu-label>Menu</span>
@@ -107,7 +105,7 @@
 
         <main>
             {{-- ─────────────── 01 · Hero ─────────────── --}}
-            <section id="top" data-hero data-reveal class="relative isolate overflow-hidden bg-night">
+            <section id="top" tabindex="-1" data-hero data-reveal class="relative isolate overflow-hidden bg-night">
                 <x-rail />
                 {{-- Logo-colour glow, scanlines and orbit lines --}}
                 <div data-hero-glow class="pointer-events-none absolute inset-0 -z-10 transition-[translate] duration-[1600ms] ease-out-expo" aria-hidden="true">
@@ -557,5 +555,77 @@
                 </footer>
             </section>
         </main>
+        {{-- ─────────────── Search ─────────────── --}}
+        <script type="application/json" id="search-index">@json($searchIndex)</script>
+        <dialog data-search-dialog aria-label="Search Rural2Rural" class="m-0 mx-auto mt-[12vh] w-[min(640px,calc(100vw-2rem))] max-w-none overflow-hidden bg-night p-0 text-white shadow-2xl ring-1 ring-white/15 backdrop:bg-night/70 backdrop:backdrop-blur-sm">
+            <div class="flex items-center gap-3 border-b border-white/10 px-4">
+                <svg viewBox="0 0 16 16" class="size-4 shrink-0 text-green" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="7" cy="7" r="4.5" /><path d="m10.5 10.5 3.5 3.5" /></svg>
+                <input data-search-input type="search" placeholder="Search programmes, events, contact…" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="search-results" aria-autocomplete="list" class="h-14 flex-1 bg-transparent text-[16px] outline-none placeholder:text-white/40">
+                <button type="button" data-search-close class="font-mono text-[10px] tracking-[0.08em] text-white/50 uppercase hover:text-white">Esc</button>
+            </div>
+            <ul id="search-results" data-search-results role="listbox" class="max-h-[50vh] overflow-y-auto p-2"></ul>
+            <div class="flex items-center justify-between border-t border-white/10 px-4 py-2.5 font-mono text-[9px] tracking-[0.08em] text-white/40 uppercase">
+                <span>↑↓ navigate · ↵ open</span>
+                <span class="text-green">// Ask r2rBot anything</span>
+            </div>
+        </dialog>
+
+        {{-- ─────────────── Back to top ─────────────── --}}
+        <button type="button" data-back-to-top aria-label="Back to top" class="pointer-events-none fixed right-6 bottom-24 z-40 grid size-11 translate-y-3 place-items-center rounded-full bg-night/90 text-white opacity-0 shadow-lg ring-1 ring-white/15 backdrop-blur transition duration-500 ease-out-expo hover:text-green [&.is-visible]:pointer-events-auto [&.is-visible]:translate-y-0 [&.is-visible]:opacity-100">
+            <svg viewBox="0 0 44 44" class="absolute inset-0 size-full -rotate-90" aria-hidden="true">
+                <circle cx="22" cy="22" r="20" fill="none" stroke="currentColor" stroke-opacity="0.15" stroke-width="2" />
+                <circle data-back-to-top-progress cx="22" cy="22" r="20" fill="none" stroke="#7dbf45" stroke-width="2" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" />
+            </svg>
+            <svg viewBox="0 0 16 16" class="relative size-4" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" /></svg>
+        </button>
+
+        {{-- ─────────────── r2rBot ─────────────── --}}
+        <div data-r2rbot data-endpoint="{{ route('r2rbot.chat') }}" class="fixed right-5 bottom-5 z-50 flex flex-col items-end gap-3">
+            <section data-r2rbot-panel id="r2rbot-panel" aria-label="r2rBot chat" hidden class="flex h-[min(580px,calc(100svh-7rem))] w-[min(390px,calc(100vw-2.5rem))] flex-col overflow-hidden bg-night text-white shadow-2xl ring-1 ring-white/15 [&[hidden]]:hidden">
+                <header class="glass-card shrink-0 p-0">
+                    <div class="relative flex items-center gap-3 px-4 py-3">
+                        <span class="relative">
+                            <img src="{{ asset('images/r2r/mark.png') }}" alt="" class="size-9 rounded-full ring-2 ring-white/40">
+                            <span class="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full bg-lime ring-2 ring-navy"></span>
+                        </span>
+                        <span class="flex-1 leading-tight">
+                            <span class="block text-[15px] font-medium">r2rBot</span>
+                            <span class="block font-mono text-[9px] tracking-[0.1em] text-white/80 uppercase">Online // AI assistant</span>
+                        </span>
+                        <button type="button" data-r2rbot-reset class="grid size-8 place-items-center text-white/80 hover:text-white" aria-label="Start a new conversation" title="New conversation">
+                            <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v3h-3" /></svg>
+                        </button>
+                        <button type="button" data-r2rbot-close class="grid size-8 place-items-center text-white/80 hover:text-white" aria-label="Close r2rBot">
+                            <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m4 4 8 8M12 4l-8 8" /></svg>
+                        </button>
+                    </div>
+                </header>
+
+                <div data-r2rbot-log role="log" aria-live="polite" class="flex flex-1 flex-col gap-3 overflow-y-auto px-4 py-5"></div>
+
+                <div data-r2rbot-suggestions class="flex flex-wrap gap-2 px-4 pb-3">
+                    @foreach (['What programmes do you run?', 'How can my school host a roadshow?', 'How do I contact R2R?'] as $suggestion)
+                        <button type="button" data-r2rbot-suggestion class="border border-white/20 px-2.5 py-1.5 text-left text-[12px] text-white/80 transition-colors hover:border-green hover:text-green">{{ $suggestion }}</button>
+                    @endforeach
+                </div>
+
+                <form data-r2rbot-form class="flex shrink-0 items-end gap-2 border-t border-white/10 p-3">
+                    <label for="r2rbot-input" class="sr-only">Message r2rBot</label>
+                    <textarea id="r2rbot-input" data-r2rbot-input rows="1" maxlength="{{ config('rural2rural.bot.max_message_length') }}" placeholder="Ask about programmes, events…" class="max-h-28 min-h-10 flex-1 resize-none bg-white/[0.06] px-3 py-2.5 text-[14px] ring-1 ring-white/10 outline-none placeholder:text-white/35 focus:ring-green"></textarea>
+                    <button type="submit" data-r2rbot-send class="grid size-10 shrink-0 place-items-center bg-green text-night transition-colors hover:bg-lime disabled:opacity-40" aria-label="Send message">
+                        <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" /></svg>
+                    </button>
+                </form>
+                <p class="shrink-0 px-4 pb-3 font-mono text-[8.5px] leading-snug tracking-[0.04em] text-white/35 uppercase">AI answers can be wrong. For official info contact {{ $contact['email'] }}</p>
+            </section>
+
+            <button type="button" data-r2rbot-toggle aria-expanded="false" aria-controls="r2rbot-panel" class="flex h-14 items-center gap-2.5 rounded-full bg-green pr-5 pl-2 text-night shadow-[0_10px_40px_-10px_rgba(125,191,69,0.7)] transition-transform duration-300 hover:-translate-y-0.5">
+                <span class="relative">
+                    <img src="{{ asset('images/r2r/mark.png') }}" alt="" class="size-10 rounded-full">
+                    <span class="animate-pulse-ring absolute inset-0 rounded-full bg-white/60" aria-hidden="true"></span>
+                </span>
+                <span data-r2rbot-toggle-label class="font-mono text-[12px] font-medium tracking-[0.06em]">Ask r2rBot</span>
+            </button>
+        </div>
     </body>
 </html>
