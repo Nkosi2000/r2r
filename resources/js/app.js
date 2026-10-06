@@ -6,6 +6,7 @@ import { prefersReducedMotion } from './effects/visibility';
 import { initBackToTop } from './ui/back-to-top';
 import { initR2rBot } from './ui/r2rbot';
 import { initSearch } from './ui/search';
+import { initSocialSidebar } from './ui/social-sidebar';
 
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 
@@ -256,6 +257,7 @@ initProgrammeList();
 initPixelBlocks();
 initHeroGlow();
 initMobileMenu();
+initSocialSidebar();
 
 const r2rBot = initR2rBot();
 initSearch({ askBot: r2rBot ? (question) => r2rBot.open(question) : undefined });

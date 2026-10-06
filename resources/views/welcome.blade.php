@@ -96,12 +96,38 @@
                         </li>
                     @endforeach
                 </ul>
+                <ul class="flex items-center gap-2 px-5 pt-5" aria-label="Rural2Rural on social media">
+                    @foreach (config('rural2rural.social') as $label => $href)
+                        <li>
+                            <a href="{{ $href }}" target="_blank" rel="noopener" aria-label="Rural2Rural on {{ $label }} (opens in a new tab)" class="grid size-10 place-items-center rounded-full bg-navy/[0.06] text-navy transition-colors hover:bg-navy hover:text-white">
+                                <x-social-icon :platform="$label" class="size-[18px]" />
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
                 <div class="grid grid-cols-2 items-center gap-3 p-5">
                     <a href="tel:{{ str_replace(' ', '', $contact['phone']) }}" class="text-center font-mono text-[11px] tracking-[0.08em] uppercase">Call us</a>
                     <x-button :href="$mailPartner" variant="navy" class="justify-center">Partner with us</x-button>
                 </div>
             </nav>
         </header>
+
+        {{-- ─────────────── Social sidebar (left) ─────────────── --}}
+        <nav data-social-sidebar aria-label="Rural2Rural on social media" class="fixed top-1/2 left-[44px] z-40 hidden -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-4 transition-opacity duration-500 lg:flex [&.is-hidden]:pointer-events-none [&.is-hidden]:opacity-0">
+            <span class="font-mono text-[9px] tracking-[0.3em] text-green uppercase [writing-mode:vertical-rl] rotate-180">Follow // R2R</span>
+            <span class="h-10 w-px bg-gradient-to-b from-transparent to-green/70" aria-hidden="true"></span>
+            <ul class="flex flex-col gap-2 rounded-full bg-night/85 p-1.5 shadow-lg ring-1 ring-white/15 backdrop-blur-md">
+                @foreach (config('rural2rural.social') as $label => $href)
+                    <li class="group relative">
+                        <a href="{{ $href }}" target="_blank" rel="noopener" aria-label="Rural2Rural on {{ $label }} (opens in a new tab)" class="grid size-10 place-items-center rounded-full text-white/80 transition-colors duration-300 hover:bg-green hover:text-night focus-visible:bg-green focus-visible:text-night focus-visible:outline-none">
+                            <x-social-icon :platform="$label" class="size-[18px]" />
+                        </a>
+                        <span class="pointer-events-none absolute top-1/2 left-full ml-3 -translate-x-1 -translate-y-1/2 bg-night px-2.5 py-1.5 font-mono text-[10px] tracking-[0.08em] whitespace-nowrap text-white uppercase opacity-0 ring-1 ring-white/15 transition duration-300 group-focus-within:translate-x-0 group-focus-within:opacity-100 group-hover:translate-x-0 group-hover:opacity-100" aria-hidden="true">{{ $label }}</span>
+                    </li>
+                @endforeach
+            </ul>
+            <span class="h-10 w-px bg-gradient-to-t from-transparent to-green/70" aria-hidden="true"></span>
+        </nav>
 
         <main>
             {{-- ─────────────── 01 · Hero ─────────────── --}}
@@ -259,7 +285,7 @@
 
             {{-- ─────────────── 06 · Mission (light) ─────────────── --}}
             <section data-header="light" class="bg-paper text-navy" aria-labelledby="mission-title">
-                <div class="grid gap-10 px-4 py-24 sm:px-8 lg:grid-cols-[1.6fr_1fr] lg:px-12 lg:py-32" data-reveal>
+                <div class="grid gap-10 px-4 py-24 sm:px-8 lg:grid-cols-[1.6fr_1fr] lg:pr-12 lg:pl-[136px] lg:py-32" data-reveal>
                     <div>
                         <img src="{{ asset('images/rural2rural.png') }}" alt="Rural2Rural Skills, Jobs, Careers &amp; Entrepreneurship Initiative" class="fade-up h-auto w-[min(100%,420px)]">
                         <h2 id="mission-title" class="fade-up mt-14 max-w-3xl text-[clamp(1.9rem,3.6vw,3.2rem)] leading-[1.06] tracking-[-0.03em] delay-150">
@@ -275,7 +301,7 @@
                     </div>
                 </div>
 
-                <div class="grid gap-10 border-t border-navy/10 px-4 py-16 sm:px-8 lg:grid-cols-[1fr_1fr_1fr] lg:px-12">
+                <div class="grid gap-10 border-t border-navy/10 px-4 py-16 sm:px-8 lg:grid-cols-[1fr_1fr_1fr] lg:pr-12 lg:pl-[136px]">
                     <p class="font-mono text-[10px] tracking-[0.1em] text-navy/50 uppercase">( Our mission )</p>
                     <p class="text-[14px] leading-relaxed text-navy/80">
                         Celebrating over 10 years of organising career guidance development programmes in rural communities, we promote and expose real opportunities to youth where they live — in schools, towns and municipalities.
@@ -285,7 +311,7 @@
                     </p>
                 </div>
 
-                <div class="px-4 pb-24 sm:px-8 lg:px-12">
+                <div class="px-4 pb-24 sm:px-8 lg:pr-12 lg:pl-[136px]">
                     <p class="mb-6 text-xl tracking-[-0.02em]">From the field</p>
                     <ul class="grid grid-cols-2 gap-3 lg:grid-cols-4">
                         @foreach ($fieldPhotos as $photo)
@@ -461,7 +487,7 @@
                     <span class="stripe h-3 bg-blue"></span>
                     <span class="stripe h-2 bg-blue delay-150"></span>
                 </div>
-                <div class="plus-grid bg-blue px-4 py-20 sm:px-8 lg:px-12 lg:py-28">
+                <div class="plus-grid bg-blue px-4 py-20 sm:px-8 lg:pr-12 lg:pl-[136px] lg:py-28">
                     <div data-reveal class="fade-up grid gap-10 bg-night p-8 sm:p-12 lg:grid-cols-[1.4fr_1fr]">
                         <div>
                             <p class="flex items-center gap-2 font-mono text-[10px] tracking-[0.1em] text-white/70 uppercase"><i class="size-1.5 rounded-full bg-green"></i>Work with R2R</p>
@@ -542,7 +568,7 @@
                             <h3 class="{{ $headingClass }}">// Social</h3>
                             <ul class="grid gap-2.5">
                                 @foreach (config('rural2rural.social') as $label => $href)
-                                    <li><a href="{{ $href }}" target="_blank" rel="noopener" class="{{ $linkClass }}">{{ $label }}</a></li>
+                                    <li><a href="{{ $href }}" target="_blank" rel="noopener" class="{{ $linkClass }} inline-flex items-center gap-2"><x-social-icon :platform="$label" class="size-3.5" />{{ $label }}</a></li>
                                 @endforeach
                             </ul>
                         </nav>
@@ -571,7 +597,7 @@
         </dialog>
 
         {{-- ─────────────── Back to top ─────────────── --}}
-        <button type="button" data-back-to-top aria-label="Back to top" class="pointer-events-none fixed right-6 bottom-24 z-40 grid size-11 translate-y-3 place-items-center rounded-full bg-night/90 text-white opacity-0 shadow-lg ring-1 ring-white/15 backdrop-blur transition duration-500 ease-out-expo hover:text-green [&.is-visible]:pointer-events-auto [&.is-visible]:translate-y-0 [&.is-visible]:opacity-100">
+        <button type="button" data-back-to-top aria-label="Back to top" class="pointer-events-none fixed bottom-5 left-4 z-40 grid size-11 lg:bottom-6 lg:left-[22px] translate-y-3 place-items-center rounded-full bg-night/90 text-white opacity-0 shadow-lg ring-1 ring-white/15 backdrop-blur transition duration-500 ease-out-expo hover:text-green [&.is-visible]:pointer-events-auto [&.is-visible]:translate-y-0 [&.is-visible]:opacity-100">
             <svg viewBox="0 0 44 44" class="absolute inset-0 size-full -rotate-90" aria-hidden="true">
                 <circle cx="22" cy="22" r="20" fill="none" stroke="currentColor" stroke-opacity="0.15" stroke-width="2" />
                 <circle data-back-to-top-progress cx="22" cy="22" r="20" fill="none" stroke="#7dbf45" stroke-width="2" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" />
