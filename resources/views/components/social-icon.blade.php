@@ -1,6 +1,6 @@
 @props(['platform'])
 
-{{-- Brand glyph for a social platform, matched on the label used in config('rural2rural.social'). --}}
+{{-- Brand glyph for a social platform, matched on the platform label stored in the "social" site setting. --}}
 @php
     $platformKey = str($platform)->lower();
 @endphp

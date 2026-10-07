@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Support\SiteContent;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
@@ -12,8 +13,10 @@ class R2rBotUnavailableException extends Exception
      */
     public function render(): JsonResponse
     {
+        $contact = app(SiteContent::class)->contact();
+
         return response()->json([
-            'message' => 'r2rBot is taking a break right now. Please email '.config('rural2rural.contact.email').' or call '.config('rural2rural.contact.phone').'.',
+            'message' => 'r2rBot is taking a break right now. Please email '.$contact['email'].' or call '.$contact['phone'].'.',
         ], 503);
     }
 }

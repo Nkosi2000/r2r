@@ -28,7 +28,7 @@
                     <div class="flex h-full flex-col bg-white p-6 ring-1 ring-navy/10">
                         <span class="font-mono text-[10px] tracking-[0.1em] text-blue uppercase">04 // Follow</span>
                         <ul class="mt-6 flex gap-2">
-                            @foreach (config('rural2rural.social') as $label => $href)
+                            @foreach ($social as $label => $href)
                                 <li>
                                     <a href="{{ $href }}" target="_blank" rel="noopener" aria-label="Rural2Rural on {{ $label }} (opens in a new tab)" class="grid size-10 place-items-center rounded-full bg-navy/[0.06] text-navy transition-colors hover:bg-navy hover:text-white">
                                         <x-social-icon :platform="$label" class="size-[18px]" />

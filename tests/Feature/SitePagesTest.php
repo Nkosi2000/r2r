@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Partner;
+
 dataset('pages', [
     'home' => ['home', 'Delivering Real'],
-    'who we are' => ['about', 'Our mission, in four commitments.'],
+    'who we are' => ['about', 'Our mission and commitments.'],
     'what we do' => ['what-we-do', 'Meet the programmes built for every rural learner'],
     'our partners' => ['partners', 'Ways to'],
     'media' => ['media', 'Photo gallery'],
@@ -35,9 +37,9 @@ test('only the home page shows the preloader', function () {
 test('every partner is listed on the partners page', function () {
     $response = $this->get(route('partners'))->assertOk();
 
-    foreach (config('rural2rural.partners') as $partner) {
-        $response->assertSee(e($partner['name']), false)
-            ->assertSee('images/partners/'.$partner['logo'], false);
+    foreach (Partner::all() as $partner) {
+        $response->assertSee(e($partner->name), false)
+            ->assertSee($partner->logo, false);
     }
 
     $response->assertSee('Green Youth Network')->assertSee('Influence Afrika');

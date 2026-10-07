@@ -11,10 +11,10 @@
         <div data-reveal class="{{ $gutter }} py-24 lg:py-28">
             <div class="grid gap-8 lg:grid-cols-[1fr_2.4fr]">
                 <x-eyebrow first="What" class="fade-up">drives us</x-eyebrow>
-                <h2 id="drives-title" class="fade-up max-w-2xl text-[clamp(1.8rem,3.2vw,2.8rem)] leading-[1.1] font-light tracking-[-0.025em] delay-100">Our mission, in four commitments.</h2>
+                <h2 id="drives-title" class="fade-up max-w-2xl text-[clamp(1.8rem,3.2vw,2.8rem)] leading-[1.1] font-light tracking-[-0.025em] delay-100">Our mission and commitments.</h2>
             </div>
             <ol class="mt-14 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
-                @foreach (config('rural2rural.mission') as $commitment)
+                @foreach ($mission as $commitment)
                     <li class="fade-up flex min-h-56 flex-col gap-8 bg-night p-6" style="transition-delay: {{ 150 + $loop->index * 100 }}ms">
                         <span class="font-mono text-[11px] text-green">{{ sprintf('%02d', $loop->iteration) }} //</span>
                         <p class="mt-auto text-[15px] leading-relaxed text-white/80">{{ $commitment }}</p>

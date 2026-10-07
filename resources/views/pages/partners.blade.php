@@ -16,7 +16,7 @@
                     <li class="fade-up" style="transition-delay: {{ 100 + $loop->index * 80 }}ms">
                         <figure class="group flex h-full flex-col bg-white ring-1 ring-navy/10 transition duration-500 ease-out-expo hover:-translate-y-1 hover:shadow-[0_24px_50px_-28px_rgba(41,49,121,0.45)] hover:ring-blue/40">
                             <div class="flex h-48 items-center justify-center p-8">
-                                <img src="{{ asset('images/partners/'.$partner['logo']) }}" alt="{{ $partner['name'] }} logo" loading="lazy" class="max-h-28 w-auto max-w-full object-contain">
+                                <img src="{{ asset($partner['logo']) }}" alt="{{ $partner['name'] }} logo" loading="lazy" class="max-h-28 w-auto max-w-full object-contain">
                             </div>
                             <figcaption class="flex flex-1 flex-col border-t border-navy/10 p-5">
                                 <span class="font-mono text-[10px] tracking-[0.1em] text-blue">{{ sprintf('%02d', $loop->iteration) }} //</span>

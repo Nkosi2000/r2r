@@ -66,8 +66,8 @@
                         <p class="text-lg">Roadshow Route</p>
                         <span class="flex items-center gap-1.5 bg-white/15 px-2 py-1 font-mono text-[8px] tracking-[0.1em] uppercase ring-1 ring-white/25"><i class="animate-blink size-1 bg-lime"></i>Village to village</span>
                     </div>
-                    @foreach (['Careers' => 14.6, 'Skills' => 36.5, 'Enterprise' => 58.3, 'Teachers' => 80.2] as $label => $left)
-                        <span class="absolute top-[90%] -translate-x-1/2 -translate-y-1/2 font-mono text-[8px] tracking-[0.08em] uppercase sm:text-[9px]" style="left: {{ $left }}%">{{ $label }}</span>
+                    @foreach ($pillars->take(4)->values()->zip([14.6, 36.5, 58.3, 80.2]) as [$pillar, $left])
+                        <span class="absolute top-[90%] -translate-x-1/2 -translate-y-1/2 font-mono text-[8px] tracking-[0.08em] uppercase sm:text-[9px]" style="left: {{ $left }}%">{{ $pillar->verb }}</span>
                     @endforeach
                 </div>
             </div>

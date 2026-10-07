@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Anthropic\Client;
+use App\Support\SiteContent;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Contracts\View\View as ViewContract;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -20,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(Client::class, fn (): Client => new Client(
             apiKey: (string) config('services.anthropic.key'),
         ));
+
+        $this->app->scoped(SiteContent::class);
     }
 
     /**
@@ -27,17 +31,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $contact = config('rural2rural.contact');
+        View::share('gutter', 'px-4 sm:px-8 lg:pr-12 lg:pl-[136px]');
 
-        View::share([
-            'contact' => $contact,
-            'mailPartner' => 'mailto:'.$contact['email'].'?subject='.rawurlencode('Partnering with Rural2Rural'),
-            'gutter' => 'px-4 sm:px-8 lg:pr-12 lg:pl-[136px]',
-            'pillars' => config('rural2rural.pillars'),
-            'programmes' => config('rural2rural.programmes'),
-            'events' => config('rural2rural.events'),
-            'partners' => config('rural2rural.partners'),
-        ]);
+        // Content comes from the database, so it is only loaded once a view actually renders.
+        View::composer('*', fn (ViewContract $view) => $view->with(app(SiteContent::class)->viewData()));
 
         RateLimiter::for('r2rbot', function (Request $request): array {
             $tooManyRequests = fn (): JsonResponse => response()->json([

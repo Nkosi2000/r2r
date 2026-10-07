@@ -5,10 +5,15 @@ namespace App\Services;
 use Anthropic\Client;
 use Anthropic\Core\Exceptions\AnthropicException;
 use App\Exceptions\R2rBotUnavailableException;
+use App\Models\Event;
+use App\Models\Partner;
+use App\Models\Pillar;
+use App\Models\Programme;
+use App\Support\SiteContent;
 
 class R2rBot
 {
-    public function __construct(private Client $client) {}
+    public function __construct(private Client $client, private SiteContent $content) {}
 
     /**
      * Ask Claude for r2rBot's next reply in the conversation.
@@ -56,15 +61,16 @@ class R2rBot
      */
     public function systemPrompt(): string
     {
-        $site = config('rural2rural');
-        $contact = $site['contact'];
+        $contact = $this->content->contact();
+        $about = $this->content->about();
 
-        $mission = collect($site['mission'])->map(fn (string $line): string => "- {$line}")->implode("\n");
-        $pillars = collect($site['pillars'])->map(fn (array $pillar): string => "- {$pillar['title']}: {$pillar['body']}")->implode("\n");
-        $programmes = collect($site['programmes'])->map(fn (array $programme): string => "- {$programme['title']} ({$programme['pillar']})")->implode("\n");
-        $partners = collect($site['partners'])->map(fn (array $partner): string => "- {$partner['name']} ({$partner['description']})")->implode("\n");
-        $events = collect($site['events'])->map(fn (array $event): string => "- {$event['title']}, {$event['place']}, {$event['date']}")->implode("\n");
-        $social = collect($site['social'])->map(fn (string $url, string $name): string => "- {$name}: {$url}")->implode("\n");
+        $mission = collect($this->content->mission())->map(fn (string $line): string => "- {$line}")->implode("\n");
+        $pillars = $this->content->pillars()->map(fn (Pillar $pillar): string => "- {$pillar->title}: {$pillar->body}")->implode("\n");
+        $programmes = $this->content->programmes()->map(fn (Programme $programme): string => "- {$programme->title} ({$programme->pillar})")->implode("\n");
+        $partners = $this->content->partners()->map(fn (Partner $partner): string => "- {$partner->name} ({$partner->description})")->implode("\n");
+        $upcomingEvents = $this->content->upcomingEvents()->map(fn (Event $event): string => "- {$event->title}, {$event->place}, {$event->date}")->implode("\n") ?: '- None announced yet';
+        $events = $this->content->pastEvents()->map(fn (Event $event): string => "- {$event->title}, {$event->place}, {$event->date}")->implode("\n");
+        $social = $this->content->social()->map(fn (string $url, string $name): string => "- {$name}: {$url}")->implode("\n");
         $address = implode(', ', $contact['address']);
 
         return <<<PROMPT
@@ -75,7 +81,7 @@ class R2rBot
         Keep replies short and warm: two to four sentences, or a few "-" bullets when listing. Write plain text without Markdown headings, bold or tables. Reply in the language the visitor writes in when you can. If a question has nothing to do with Rural2Rural, politely steer back to what you can help with.
 
         <about>
-        {$site['about']}
+        {$about}
         </about>
 
         <mission>
@@ -93,6 +99,10 @@ class R2rBot
         <partners>
         {$partners}
         </partners>
+
+        <upcoming_events>
+        {$upcomingEvents}
+        </upcoming_events>
 
         <past_events>
         {$events}

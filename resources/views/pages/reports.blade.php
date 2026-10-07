@@ -1,5 +1,6 @@
+@inject('content', 'App\Support\SiteContent')
 @php
-    $reports = config('rural2rural.reports');
+    $reports = $content->reports();
     $mailReportRequest = 'mailto:'.$contact['email'].'?subject='.rawurlencode('Report request');
 @endphp
 
@@ -15,7 +16,7 @@
             <div>
                 <h2 id="reports-title" class="fade-up text-[clamp(1.8rem,3.2vw,2.8rem)] leading-[1.1] font-light tracking-[-0.025em] delay-100">Reports &amp; documents</h2>
 
-                @if (count($reports))
+                @if ($reports->isNotEmpty())
                     <ul class="mt-10 border-t border-white/10">
                         @foreach ($reports as $report)
                             <li class="border-b border-white/10">

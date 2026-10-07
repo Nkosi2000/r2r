@@ -5,16 +5,16 @@
 
 {{--
     Page title, search meta, Open Graph / Facebook business tags, Twitter card
-    and schema.org NGO data — all driven by config('rural2rural'). Inner pages
-    pass their own title and description; the home page uses the defaults.
+    and schema.org NGO data — all driven by the site content in the database
+    ($seo, $contact, $social, $pillars). Inner pages pass their own title and
+    description; the home page uses the defaults.
 --}}
 @php
-    $site = config('rural2rural');
-    $contact = $site['contact'];
+    $siteDescription = $seo['description'];
     $postal = $contact['postal'];
     $homeUrl = route('home');
     $pageUrl = request()->routeIs('home') ? $homeUrl : url()->current();
-    $seo = array_merge($site['seo'], array_filter([
+    $seo = array_merge($seo, array_filter([
         'title' => $title ? $title.' — Rural2Rural' : null,
         'share_title' => $title ? $title.' | Rural2Rural (R2R)' : null,
         'description' => $description,
@@ -34,7 +34,7 @@
         'url' => $homeUrl,
         'logo' => asset('images/rural2rural.png'),
         'image' => $shareImage,
-        'description' => $site['seo']['description'],
+        'description' => $siteDescription,
         'slogan' => $seo['slogan'],
         'email' => $contact['email'],
         'telephone' => $contact['phone'],
@@ -51,8 +51,8 @@
             ['@type' => 'ContactPoint', 'contactType' => 'mobile', 'telephone' => $contact['mobile'], 'areaServed' => $postal['country_code']],
         ],
         'areaServed' => ['@type' => 'Country', 'name' => $postal['country_name']],
-        'knowsAbout' => collect($site['pillars'])->pluck('title')->all(),
-        'sameAs' => array_values($site['social']),
+        'knowsAbout' => $pillars->pluck('title')->all(),
+        'sameAs' => $social->values()->all(),
     ];
 @endphp
 

@@ -1,3 +1,5 @@
+@inject('content', 'App\Support\SiteContent')
+
 <x-layouts.app title="Resources" description="Useful links for rural learners, job seekers, teachers and small businesses — bursaries, youth opportunities, skills and learnerships.">
     <x-page-header title="Resources" eyebrow="Useful<br>// links">
         Trusted places to find bursaries, jobs, learnerships and support, for learners, job seekers, teachers and small businesses.
@@ -5,11 +7,11 @@
 
     <section data-header="light" class="bg-paper text-navy" aria-label="Resource links">
         <div data-reveal class="grid gap-16 px-4 py-24 sm:px-8 lg:pr-12 lg:pl-[136px] lg:py-28">
-            @foreach (config('rural2rural.resources') as $group)
+            @foreach ($content->resourceGroups() as $group => $links)
                 <div class="fade-up grid gap-6 lg:grid-cols-[1fr_2.4fr]" style="transition-delay: {{ $loop->index * 100 }}ms">
-                    <h2 class="tag text-blue">{{ sprintf('%02d', $loop->iteration) }}<br>// {{ $group['group'] }}</h2>
+                    <h2 class="tag text-blue">{{ sprintf('%02d', $loop->iteration) }}<br>// {{ $group }}</h2>
                     <ul class="grid gap-4 md:grid-cols-2">
-                        @foreach ($group['links'] as $link)
+                        @foreach ($links as $link)
                             <li>
                                 <a href="{{ $link['url'] }}" target="_blank" rel="noopener" class="group flex h-full flex-col bg-white p-6 ring-1 ring-navy/10 transition duration-500 ease-out-expo hover:-translate-y-1 hover:shadow-[0_24px_50px_-28px_rgba(41,49,121,0.45)] hover:ring-blue/40">
                                     <span class="flex items-start justify-between gap-4">

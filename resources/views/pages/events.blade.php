@@ -1,5 +1,4 @@
 @php
-    $upcomingEvents = config('rural2rural.upcoming_events');
     $mailHostRoadshow = 'mailto:'.$contact['email'].'?subject='.rawurlencode('Hosting an R2R roadshow');
 @endphp
 
@@ -16,7 +15,7 @@
             <div>
                 <h2 id="upcoming-title" class="fade-up text-[clamp(1.8rem,3.2vw,2.8rem)] leading-[1.1] font-light tracking-[-0.025em] delay-100">Upcoming events</h2>
 
-                @if (count($upcomingEvents))
+                @if ($upcomingEvents->isNotEmpty())
                     <ul class="mt-10 border-t border-white/10">
                         @foreach ($upcomingEvents as $event)
                             <li class="flex items-baseline justify-between gap-4 border-b border-white/10 py-5">

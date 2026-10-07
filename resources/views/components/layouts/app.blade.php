@@ -27,10 +27,10 @@
         ['title' => 'Resources', 'kind' => 'Page', 'href' => route('resources'), 'keywords' => 'bursaries nsfas jobs learnerships links'],
         ['title' => 'Reports', 'kind' => 'Page', 'href' => route('reports'), 'keywords' => 'annual impact reports documents'],
         ['title' => 'Contact us', 'kind' => 'Page', 'href' => route('contact'), 'keywords' => 'address phone email office centurion directions'],
-        ...collect($partners)->map(fn (array $partner): array => ['title' => $partner['name'], 'kind' => 'Partner', 'href' => route('partners'), 'keywords' => $partner['description']])->all(),
-        ...collect($pillars)->map(fn (array $pillar): array => ['title' => $pillar['title'], 'kind' => 'Pillar', 'href' => route('what-we-do'), 'keywords' => $pillar['body']])->all(),
-        ...collect($programmes)->map(fn (array $programme): array => ['title' => $programme['title'], 'kind' => 'Programme', 'href' => route('what-we-do'), 'keywords' => $programme['pillar']])->all(),
-        ...collect($events)->map(fn (array $event): array => ['title' => $event['title'].' · '.$event['place'], 'kind' => 'Event', 'href' => route('events'), 'keywords' => $event['date']])->all(),
+        ...$partners->map(fn (App\Models\Partner $partner): array => ['title' => $partner->name, 'kind' => 'Partner', 'href' => route('partners'), 'keywords' => $partner->description])->all(),
+        ...$pillars->map(fn (App\Models\Pillar $pillar): array => ['title' => $pillar->title, 'kind' => 'Pillar', 'href' => route('what-we-do'), 'keywords' => $pillar->body])->all(),
+        ...$programmes->map(fn (App\Models\Programme $programme): array => ['title' => $programme->title, 'kind' => 'Programme', 'href' => route('what-we-do'), 'keywords' => $programme->pillar])->all(),
+        ...$upcomingEvents->concat($pastEvents)->map(fn (App\Models\Event $event): array => ['title' => $event->title.' · '.$event->place, 'kind' => 'Event', 'href' => route('events'), 'keywords' => $event->date])->all(),
         ['title' => 'Email '.$contact['email'], 'kind' => 'Contact', 'href' => 'mailto:'.$contact['email'], 'keywords' => 'email mail message'],
         ['title' => 'Call '.$contact['phone'], 'kind' => 'Contact', 'href' => 'tel:'.str_replace(' ', '', $contact['phone']), 'keywords' => 'phone call telephone office'],
         ['title' => 'Mobile '.$contact['mobile'], 'kind' => 'Contact', 'href' => 'tel:'.str_replace(' ', '', $contact['mobile']), 'keywords' => 'mobile cell whatsapp phone'],
@@ -78,14 +78,14 @@
                 <div class="relative flex-1" aria-hidden="true">
                     <canvas data-neural-brain class="absolute inset-0 size-full"></canvas>
                     <div class="preloader-ui absolute inset-0">
-                        @foreach ([
-                            ['label' => 'Careers', 'position' => 'top-[22%] left-[8%] sm:left-[16%]'],
-                            ['label' => 'Skills', 'position' => 'top-[26%] right-[8%] text-right sm:right-[16%]'],
-                            ['label' => 'Enterprise', 'position' => 'bottom-[20%] left-[8%] sm:left-[18%]'],
-                            ['label' => 'Teachers', 'position' => 'bottom-[16%] right-[8%] text-right sm:right-[18%]'],
-                        ] as $node)
-                            <span class="preloader-label absolute {{ $node['position'] }} font-mono text-[9px] leading-tight tracking-[0.1em] text-white/70 uppercase" style="animation-delay: {{ 900 + $loop->index * 400 }}ms">
-                                <span class="block text-green">{{ sprintf('%02d', $loop->iteration) }} //</span>{{ $node['label'] }}
+                        @foreach ($pillars->take(4)->values()->zip([
+                            'top-[22%] left-[8%] sm:left-[16%]',
+                            'top-[26%] right-[8%] text-right sm:right-[16%]',
+                            'bottom-[20%] left-[8%] sm:left-[18%]',
+                            'bottom-[16%] right-[8%] text-right sm:right-[18%]',
+                        ]) as [$pillar, $position])
+                            <span class="preloader-label absolute {{ $position }} font-mono text-[9px] leading-tight tracking-[0.1em] text-white/70 uppercase" style="animation-delay: {{ 900 + $loop->index * 400 }}ms">
+                                <span class="block text-green">{{ sprintf('%02d', $loop->iteration) }} //</span>{{ $pillar->verb }}
                             </span>
                         @endforeach
                     </div>
@@ -144,7 +144,7 @@
                     @endforeach
                 </ul>
                 <ul class="flex items-center gap-2 px-5 pt-5" aria-label="Rural2Rural on social media">
-                    @foreach (config('rural2rural.social') as $label => $href)
+                    @foreach ($social as $label => $href)
                         <li>
                             <a href="{{ $href }}" target="_blank" rel="noopener" aria-label="Rural2Rural on {{ $label }} (opens in a new tab)" class="grid size-10 place-items-center rounded-full bg-navy/[0.06] text-navy transition-colors hover:bg-navy hover:text-white">
                                 <x-social-icon :platform="$label" class="size-[18px]" />
@@ -164,7 +164,7 @@
             <span class="font-mono text-[9px] tracking-[0.3em] text-green uppercase [writing-mode:vertical-rl] rotate-180">Follow // R2R</span>
             <span class="h-10 w-px bg-gradient-to-b from-transparent to-green/70" aria-hidden="true"></span>
             <ul class="flex flex-col gap-2 rounded-full bg-night/85 p-1.5 shadow-lg ring-1 ring-white/15 backdrop-blur-md">
-                @foreach (config('rural2rural.social') as $label => $href)
+                @foreach ($social as $label => $href)
                     <li class="group relative">
                         <a href="{{ $href }}" target="_blank" rel="noopener" aria-label="Rural2Rural on {{ $label }} (opens in a new tab)" class="grid size-10 place-items-center rounded-full text-white/80 transition-colors duration-300 hover:bg-green hover:text-night focus-visible:bg-green focus-visible:text-night focus-visible:outline-none">
                             <x-social-icon :platform="$label" class="size-[18px]" />
@@ -211,8 +211,8 @@
                         <nav aria-label="Programmes">
                             <h3 class="{{ $headingClass }}">// Programmes</h3>
                             <ul class="grid gap-2.5">
-                                @foreach (['Careers & Jobs', 'Skills Training', 'Entrepreneurship', 'Teacher Development'] as $label)
-                                    <li><a href="{{ route('what-we-do') }}" class="{{ $linkClass }}">{{ $label }}</a></li>
+                                @foreach ($pillars as $pillar)
+                                    <li><a href="{{ route('what-we-do') }}" class="{{ $linkClass }}">{{ $pillar->title }}</a></li>
                                 @endforeach
                             </ul>
                         </nav>
@@ -239,7 +239,7 @@
                         <nav aria-label="Social">
                             <h3 class="{{ $headingClass }}">// Social</h3>
                             <ul class="grid gap-2.5">
-                                @foreach (config('rural2rural.social') as $label => $href)
+                                @foreach ($social as $label => $href)
                                     <li><a href="{{ $href }}" target="_blank" rel="noopener" class="{{ $linkClass }} inline-flex items-center gap-2"><x-social-icon :platform="$label" class="size-3.5" />{{ $label }}</a></li>
                                 @endforeach
                             </ul>

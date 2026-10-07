@@ -37,7 +37,7 @@
         {{-- Roadshow route: a rural road winding to the next village, with the four pillars as stops along the way --}}
         @php
             $roadCentre = 'M170 460 C190 380 330 330 280 260 C230 190 231 190 250 152';
-            $roadshowRoute = collect($events)->pluck('place')->unique()->prepend('Gauteng')->implode(' → ');
+            $roadshowRoute = $pastEvents->pluck('place')->unique()->prepend('Gauteng')->implode(' → ');
         @endphp
         <div class="fade-up relative flex flex-col items-center justify-center gap-14 delay-300 lg:items-end">
             <figure class="relative mx-auto aspect-[420/460] w-[min(86vw,400px)] lg:mr-[8%]">
@@ -119,18 +119,18 @@
                 <p class="absolute top-4 right-5 flex items-center gap-1.5 bg-white/10 px-2 py-1 font-mono text-[8px] tracking-[0.1em] uppercase ring-1 ring-white/20"><i class="animate-blink size-1 bg-lime"></i>On the road</p>
                 <p class="absolute top-[25%] left-[59.5%] -translate-x-1/2 font-mono text-[8px] tracking-[0.1em] whitespace-nowrap text-white/60 uppercase">Next village ↓</p>
 
-                {{-- Pillar stops, nearest first --}}
-                @foreach ([
-                    ['number' => '01', 'label' => 'Careers<br>&amp; Jobs', 'position' => 'left-[46.2%] top-[90.3%]', 'size' => 'size-2.5', 'side' => 'left'],
-                    ['number' => '02', 'label' => 'Skills<br>Training', 'position' => 'left-[59.8%] top-[77.4%]', 'size' => 'size-2', 'side' => 'right'],
-                    ['number' => '03', 'label' => 'Entre-<br>preneurship', 'position' => 'left-[68.3%] top-[67.3%]', 'size' => 'size-2', 'side' => 'right'],
-                    ['number' => '04', 'label' => 'Teacher<br>Development', 'position' => 'left-[59%] top-[46.3%]', 'size' => 'size-1.5', 'side' => 'left'],
-                ] as $stop)
+                {{-- Pillar stops, nearest first: positions follow the road, labels come from the pillars --}}
+                @foreach ($pillars->take(4)->values()->zip([
+                    ['position' => 'left-[46.2%] top-[90.3%]', 'size' => 'size-2.5', 'side' => 'left'],
+                    ['position' => 'left-[59.8%] top-[77.4%]', 'size' => 'size-2', 'side' => 'right'],
+                    ['position' => 'left-[68.3%] top-[67.3%]', 'size' => 'size-2', 'side' => 'right'],
+                    ['position' => 'left-[59%] top-[46.3%]', 'size' => 'size-1.5', 'side' => 'left'],
+                ]) as [$pillar, $stop])
                     <span class="absolute {{ $stop['position'] }} -translate-1/2">
                         <span class="animate-pulse-ring absolute inset-0 rounded-full bg-green" style="animation-delay: {{ $loop->index * 0.6 }}s" aria-hidden="true"></span>
                         <span class="relative block {{ $stop['size'] }} rounded-full bg-green ring-2 ring-night"></span>
                         <span class="absolute top-1/2 {{ $stop['side'] === 'left' ? 'right-5 text-right' : 'left-5' }} -translate-y-1/2 font-mono text-[9px] leading-tight tracking-[0.08em] whitespace-nowrap text-white/85 uppercase">
-                            <span class="block text-green">Stop {{ $stop['number'] }}</span>{!! $stop['label'] !!}
+                            <span class="block text-green">Stop {{ sprintf('%02d', $loop->iteration) }}</span>{{ $pillar->verb }}
                         </span>
                     </span>
                 @endforeach
