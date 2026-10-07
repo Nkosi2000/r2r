@@ -30,6 +30,11 @@
         overflow: hidden;
     }
 
+    /* Intro already played this session */
+    html.intro-seen [data-preloader] {
+        display: none;
+    }
+
     body {
         @apply bg-night font-sans text-white antialiased;
     }
@@ -174,6 +179,39 @@
     animation: preloader-label 0.9s var(--ease-out-expo) both;
 }
 
+/* Preloader hand-over: text fades first, then the overlay dissolves slowly */
+[data-preloader] {
+    transition: opacity 1.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+[data-preloader].is-done {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.preloader-ui {
+    transition:
+        opacity 0.6s var(--ease-out-expo),
+        translate 0.6s var(--ease-out-expo);
+}
+
+[data-preloader].is-leaving .preloader-ui {
+    opacity: 0;
+    translate: 0 -8px;
+}
+
+/* The landing page eases out of a soft zoom and blur as the overlay lifts */
+[data-hero] {
+    transition:
+        scale 1.8s var(--ease-out-expo),
+        filter 1.8s var(--ease-out-expo);
+}
+
+html.is-loading [data-hero] {
+    scale: 1.06;
+    filter: blur(10px);
+}
+
 @keyframes road-dash {
     to {
         stroke-dashoffset: 28;
@@ -245,6 +283,15 @@
     .door-leaf {
         scale: -0.35 1;
         transition: none;
+    }
+
+    html.is-loading [data-hero] {
+        scale: none;
+        filter: none;
+    }
+
+    [data-preloader] {
+        transition-duration: 0.3s;
     }
 
     .road-dash,

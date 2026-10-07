@@ -1,9 +1,21 @@
 import { NeuralBrain } from '../effects/neural-brain';
 import { prefersReducedMotion } from '../effects/visibility';
 
+/* Also read by the inline script in the layout's <head>, which hides the intro before first paint. */
+const INTRO_SEEN_KEY = 'r2r-intro-seen';
+
+function markIntroSeen() {
+    try {
+        sessionStorage.setItem(INTRO_SEEN_KEY, '1');
+    } catch {
+        // Storage can be blocked (private mode); the intro simply plays again.
+    }
+}
+
 /**
- * Full-screen intro: a neural brain assembles while the page loads and a
- * counter runs to 100%, then the brain disperses and the overlay lifts away.
+ * Full-screen intro, played once per browser session: a neural brain
+ * assembles while the page loads and a counter runs to 100%, then the brain
+ * disperses and the overlay lifts away.
  *
  * @returns {Promise<void>} resolves as the overlay starts to leave
  */
@@ -14,12 +26,20 @@ export function initPreloader() {
         return Promise.resolve();
     }
 
+    if (document.documentElement.classList.contains('intro-seen')) {
+        preloader.remove();
+
+        return Promise.resolve();
+    }
+
+    markIntroSeen();
+
     const counter = preloader.querySelector('[data-preloader-count]');
     const bar = preloader.querySelector('[data-preloader-bar]');
     const canvas = preloader.querySelector('canvas[data-neural-brain]');
     const brain = canvas ? new NeuralBrain(canvas) : null;
     const isReducedMotion = prefersReducedMotion();
-    const minimumDuration = isReducedMotion ? 400 : 2800;
+    const minimumDuration = isReducedMotion ? 400 : 5500;
     let isPageLoaded = document.readyState === 'complete';
 
     window.addEventListener('load', () => {
@@ -44,6 +64,9 @@ export function initPreloader() {
                 return;
             }
 
+            // Hand over in stages: the counter and labels fade while the brain bursts outward,
+            // then the overlay dissolves as the landing page eases into focus underneath.
+            preloader.classList.add('is-leaving');
             brain?.disperse();
 
             setTimeout(
@@ -55,9 +78,9 @@ export function initPreloader() {
                     setTimeout(() => {
                         brain?.stop();
                         preloader.remove();
-                    }, 900);
+                    }, 1600);
                 },
-                isReducedMotion ? 0 : 450,
+                isReducedMotion ? 0 : 500,
             );
         };
 

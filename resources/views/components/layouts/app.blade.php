@@ -50,19 +50,24 @@
         @fonts
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        @if ($preloader)
+            {{-- The intro plays once per browser session; skip it before first paint after that --}}
+            <script>try { if (sessionStorage.getItem('r2r-intro-seen')) { document.documentElement.classList.add('intro-seen'); } } catch (error) {}</script>
+        @endif
     </head>
     <body class="overflow-x-clip">
         @if ($preloader)
             {{-- ─────────────── Preloader: a neural brain assembles while the page loads ─────────────── --}}
             <noscript><style>[data-preloader] { display: none; }</style></noscript>
-            <div data-preloader role="status" aria-label="Loading Rural2Rural" class="fixed inset-0 z-[100] flex flex-col overflow-hidden bg-night transition-[opacity,translate] duration-700 ease-out-expo [&.is-done]:pointer-events-none [&.is-done]:-translate-y-6 [&.is-done]:opacity-0">
+            <div data-preloader role="status" aria-label="Loading Rural2Rural" class="fixed inset-0 z-[100] flex flex-col overflow-hidden bg-night">
                 <div class="pointer-events-none absolute inset-0" aria-hidden="true">
                     <div class="absolute top-1/4 left-1/4 h-1/2 w-1/3 rounded-full bg-sky/25 blur-[120px]"></div>
                     <div class="absolute top-1/3 left-1/2 h-1/3 w-1/4 rounded-full bg-green/20 blur-[120px]"></div>
                 </div>
                 <div class="scanlines pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
-                <div class="relative flex h-16 items-center justify-between px-4 sm:px-8">
+                <div class="preloader-ui relative flex h-16 items-center justify-between px-4 sm:px-8">
                     <span class="flex items-center gap-2.5">
                         <img src="{{ asset('images/r2r/mark.png') }}" alt="" class="size-9 rounded-full bg-white">
                         <span class="text-[17px] font-medium tracking-[-0.02em]">Rural2Rural</span>
@@ -72,23 +77,25 @@
 
                 <div class="relative flex-1" aria-hidden="true">
                     <canvas data-neural-brain class="absolute inset-0 size-full"></canvas>
-                    @foreach ([
-                        ['label' => 'Careers', 'position' => 'top-[22%] left-[8%] sm:left-[16%]'],
-                        ['label' => 'Skills', 'position' => 'top-[26%] right-[8%] text-right sm:right-[16%]'],
-                        ['label' => 'Enterprise', 'position' => 'bottom-[20%] left-[8%] sm:left-[18%]'],
-                        ['label' => 'Teachers', 'position' => 'bottom-[16%] right-[8%] text-right sm:right-[18%]'],
-                    ] as $node)
-                        <span class="preloader-label absolute {{ $node['position'] }} font-mono text-[9px] leading-tight tracking-[0.1em] text-white/70 uppercase" style="animation-delay: {{ 600 + $loop->index * 250 }}ms">
-                            <span class="block text-green">{{ sprintf('%02d', $loop->iteration) }} //</span>{{ $node['label'] }}
-                        </span>
-                    @endforeach
+                    <div class="preloader-ui absolute inset-0">
+                        @foreach ([
+                            ['label' => 'Careers', 'position' => 'top-[22%] left-[8%] sm:left-[16%]'],
+                            ['label' => 'Skills', 'position' => 'top-[26%] right-[8%] text-right sm:right-[16%]'],
+                            ['label' => 'Enterprise', 'position' => 'bottom-[20%] left-[8%] sm:left-[18%]'],
+                            ['label' => 'Teachers', 'position' => 'bottom-[16%] right-[8%] text-right sm:right-[18%]'],
+                        ] as $node)
+                            <span class="preloader-label absolute {{ $node['position'] }} font-mono text-[9px] leading-tight tracking-[0.1em] text-white/70 uppercase" style="animation-delay: {{ 900 + $loop->index * 400 }}ms">
+                                <span class="block text-green">{{ sprintf('%02d', $loop->iteration) }} //</span>{{ $node['label'] }}
+                            </span>
+                        @endforeach
+                    </div>
                 </div>
 
-                <div class="relative flex items-end justify-between gap-6 px-4 pb-6 sm:px-8">
+                <div class="preloader-ui relative flex items-end justify-between gap-6 px-4 pb-6 sm:px-8">
                     <p class="tag">Growing rural minds<br>// Skills · Jobs · Careers</p>
                     <p class="text-[clamp(3rem,9vw,6.5rem)] leading-none font-light tracking-[-0.04em] tabular-nums"><span data-preloader-count>000</span><span class="text-green">%</span></p>
                 </div>
-                <div class="relative h-px bg-white/10">
+                <div class="preloader-ui relative h-px bg-white/10">
                     <span data-preloader-bar class="absolute inset-0 origin-left bg-green" style="scale: 0 1"></span>
                 </div>
             </div>
@@ -195,7 +202,7 @@
                     <div class="{{ $gutter }} grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr_0.8fr]">
                         <div>
                             <a href="{{ route('home') }}" class="flex items-center gap-3" aria-label="Rural2Rural home">
-                                <img src="{{ asset('images/r2r/mark.png') }}" alt="" class="size-11 rounded-full">
+                                <img src="{{ asset('images/r2r/mark.png') }}" alt="" class="size-11 rounded-full bg-white">
                                 <span class="text-2xl tracking-[-0.02em]">Rural2Rural</span>
                             </a>
                             <p class="mt-4 max-w-[16rem] text-[13px] text-white/60">Skills, Jobs, Careers &amp; Entrepreneurship Initiative. Delivering real opportunities to rural communities.</p>
@@ -311,12 +318,12 @@
                 <p class="shrink-0 px-4 pb-3 font-mono text-[8.5px] leading-snug tracking-[0.04em] text-white/35 uppercase">AI answers can be wrong. For official info contact {{ $contact['email'] }}</p>
             </section>
 
-            <button type="button" data-r2rbot-toggle aria-expanded="false" aria-controls="r2rbot-panel" class="flex h-14 items-center gap-2.5 rounded-full bg-green pr-5 pl-2 text-night shadow-[0_10px_40px_-10px_rgba(125,191,69,0.7)] transition-transform duration-300 hover:-translate-y-0.5">
+            <button type="button" data-r2rbot-toggle aria-expanded="false" aria-controls="r2rbot-panel" class="flex h-10 items-center gap-2 rounded-full bg-green pr-3.5 pl-1 text-night shadow-[0_8px_28px_-10px_rgba(125,191,69,0.7)] transition-transform duration-300 hover:-translate-y-0.5">
                 <span class="relative">
-                    <img src="{{ asset('images/r2r/mark.png') }}" alt="" class="size-10 rounded-full">
+                    <img src="{{ asset('images/r2r/mark.png') }}" alt="" class="size-8 rounded-full">
                     <span class="animate-pulse-ring absolute inset-0 rounded-full bg-white/60" aria-hidden="true"></span>
                 </span>
-                <span data-r2rbot-toggle-label class="font-mono text-[12px] font-medium tracking-[0.06em]">Ask r2rBot</span>
+                <span data-r2rbot-toggle-label class="font-mono text-[11px] font-medium tracking-[0.06em]">Ask r2rBot</span>
             </button>
         </div>
     </body>

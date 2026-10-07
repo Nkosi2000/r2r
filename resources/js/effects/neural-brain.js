@@ -61,7 +61,7 @@ export class NeuralBrain extends CanvasSurface {
                 y,
                 z: side * halfWidth * (isOnSurface ? 0.85 + Math.random() * 0.15 : 0.12 + Math.random() * 0.7),
                 from: { x: Math.cos(angle) * radius, y: Math.sin(angle) * radius, z: Math.random() * 4 - 2 },
-                delay: Math.random() * 0.6,
+                delay: Math.random() * 1.2,
                 size: 0.5 + Math.random() * 1.1,
                 color: isCerebellum ? LIME : mix(SKY, GREEN, clamp((x + 1) / 2)),
             });
@@ -113,7 +113,7 @@ export class NeuralBrain extends CanvasSurface {
         const centreY = height / 2;
         const angle = this.reducedMotion ? -0.6 : -0.6 + Math.sin(time * 0.45) * 0.7;
         const breathing = this.reducedMotion ? 1 : 1 + Math.sin(time * 2) * 0.012;
-        const dispersal = this.dispersedAt === null ? 0 : easeOutQuart(clamp((time - this.dispersedAt) / 0.9));
+        const dispersal = this.dispersedAt === null ? 0 : easeOutQuart(clamp((time - this.dispersedAt) / 1.2));
         const cos = Math.cos(angle);
         const sin = Math.sin(angle);
         const projected = [];
@@ -123,7 +123,7 @@ export class NeuralBrain extends CanvasSurface {
         ctx.globalCompositeOperation = 'lighter';
 
         for (const point of this.points) {
-            const assembled = this.reducedMotion ? 1 : easeOutQuart(clamp((time - point.delay) / 1.6)) * (1 - dispersal);
+            const assembled = this.reducedMotion ? 1 : easeOutQuart(clamp((time - point.delay) / 2.6)) * (1 - dispersal);
             const x = (point.from.x + (point.x - point.from.x) * assembled) * breathing;
             const y = (point.from.y + (point.y - point.from.y) * assembled) * breathing;
             const z = point.from.z + (point.z - point.from.z) * assembled;
