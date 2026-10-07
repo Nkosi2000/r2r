@@ -3,6 +3,7 @@ import { DotMatrix } from './effects/dot-matrix';
 import { drawRosettes } from './effects/rosette';
 import { prefersReducedMotion } from './effects/visibility';
 import { initBackToTop } from './ui/back-to-top';
+import { initPreloader } from './ui/preloader';
 import { initR2rBot } from './ui/r2rbot';
 import { initSearch } from './ui/search';
 import { initSocialSidebar } from './ui/social-sidebar';
@@ -248,7 +249,7 @@ function initMobileMenu() {
 
 drawRosettes();
 initCanvases();
-initReveals();
+initPreloader().then(initReveals);
 initScrollUpdates(initScrubText(), initHeader(), initBackToTop());
 initPillars();
 initProgrammeList();

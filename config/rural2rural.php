@@ -32,17 +32,16 @@ return [
         'phone' => '+27 12 440 1325',
         'mobile' => '+27 64 503 4334',
         'address' => [
-            'Corporate Park 66',
-            '66 Von Willich Ave',
-            'Die Hoewes, Centurion',
-            'Pretoria, South Africa',
-            '0163',
+            '28 Panorama Road',
+            'Rooihuiskraal',
+            'Centurion',
+            '0157',
         ],
         'postal' => [
-            'street_address' => 'Corporate Park 66, 66 Von Willich Ave, Die Hoewes',
+            'street_address' => '28 Panorama Road, Rooihuiskraal',
             'locality' => 'Centurion',
             'region' => 'Gauteng',
-            'postal_code' => '0163',
+            'postal_code' => '0157',
             'country_name' => 'South Africa',
             'country_code' => 'ZA',
         ],
@@ -125,19 +124,101 @@ return [
         ['name' => 'TETA', 'description' => 'Transport Education Training Authority', 'logo' => 'teta.png'],
         ['name' => 'Zakhele N Foundation', 'description' => 'Career Accelerators', 'logo' => 'zakhele-n-foundation.png'],
         ['name' => 'Nongoma FM 88.3', 'description' => 'Community radio station', 'logo' => 'nongoma-fm.png'],
+        ['name' => 'Green Youth Network', 'description' => 'Youth environmental network', 'logo' => 'Green-Youth-Network-Logo-1-150x150.jpeg'],
+        ['name' => 'Influence Afrika', 'description' => 'Branding agency', 'logo' => 'Influence-Afrika-Logo-150x150.png'],
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Past Events
+    | Events
     |--------------------------------------------------------------------------
+    |
+    | "place" is the province the event was held in. Add future events to
+    | "upcoming" using the same shape; the Events page lists them first.
+    |
     */
 
     'events' => [
-        ['title' => 'Careers & Skills Expo', 'place' => 'Ficksburg', 'date' => '17 Aug 2018'],
-        ['title' => 'Careers & Skills Expo', 'place' => 'Jozini', 'date' => '03 Aug 2018'],
+        ['title' => 'Careers & Skills Expo', 'place' => 'Free State', 'date' => '17 Aug 2018'],
+        ['title' => 'Careers & Skills Expo', 'place' => 'KwaZulu-Natal', 'date' => '03 Aug 2018'],
         ['title' => 'R2R Career Development', 'place' => 'Northern Cape', 'date' => '19 Oct 2017'],
     ],
+
+    'upcoming_events' => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Media
+    |--------------------------------------------------------------------------
+    |
+    | Photos live in public/images, videos in public/images/videos.
+    |
+    */
+
+    'media' => [
+        'photos' => [
+            ['image' => 'partners/IMG_0300-scaled.jpg', 'caption' => 'Career Guidance Roadshow 2022'],
+            ['image' => 'gallery/DSC0199-1024x683.jpg', 'caption' => 'Learners speak up'],
+            ['image' => 'gallery/DSC0256-1024x683.jpg', 'caption' => 'Panel discussion with TETA'],
+            ['image' => 'gallery/IMG_1609-1024x683.jpg', 'caption' => 'R2R Initiative panel'],
+            ['image' => 'gallery/DSC0297-1024x683.jpg', 'caption' => 'R2R Connect magazine, 2017'],
+            ['image' => 'r2r/learners.jpg', 'caption' => 'Career guidance session'],
+            ['image' => 'r2r/volunteers.jpg', 'caption' => 'R2R roadshow team'],
+            ['image' => 'r2r/leaders.jpg', 'caption' => 'Community & partners'],
+            ['image' => 'r2r/village.jpg', 'caption' => 'Rural South Africa'],
+        ],
+        'videos' => [
+            ['file' => 'videos/R2R-Limpopo_Marble-Hall.mp4', 'title' => 'R2R in Marble Hall', 'place' => 'Limpopo'],
+        ],
+        'publications' => [
+            ['title' => 'Rural 2 Rural Opportunities: Connect', 'edition' => 'August/September 2017 · Health Special Edition', 'image' => 'gallery/DSC0297-1024x683.jpg'],
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Resources
+    |--------------------------------------------------------------------------
+    |
+    | Useful links for learners, job seekers, teachers and small businesses.
+    |
+    */
+
+    'resources' => [
+        [
+            'group' => 'Study & bursaries',
+            'links' => [
+                ['title' => 'NSFAS', 'description' => 'National Student Financial Aid Scheme — funding for university and TVET studies.', 'url' => 'https://www.nsfas.org.za'],
+            ],
+        ],
+        [
+            'group' => 'Jobs & youth opportunities',
+            'links' => [
+                ['title' => 'SAYouth.mobi', 'description' => 'Zero-rated platform for youth jobs, learnerships and opportunities.', 'url' => 'https://sayouth.mobi'],
+                ['title' => 'NYDA', 'description' => 'National Youth Development Agency — youth business grants and support.', 'url' => 'https://www.nyda.gov.za'],
+            ],
+        ],
+        [
+            'group' => 'Skills & learnerships (our SETA partners)',
+            'links' => [
+                ['title' => 'EWSETA', 'description' => 'Energy and Water Sector Education and Training Authority.', 'url' => 'https://www.ewseta.org.za'],
+                ['title' => 'FP&M SETA', 'description' => 'Fibre Processing & Manufacturing SETA.', 'url' => 'https://www.fpmseta.org.za'],
+                ['title' => 'TETA', 'description' => 'Transport Education Training Authority.', 'url' => 'https://www.teta.org.za'],
+            ],
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Reports
+    |--------------------------------------------------------------------------
+    |
+    | Annual and impact reports. PDFs go in public/reports, e.g.
+    | ['title' => 'Annual Report', 'year' => '2024', 'file' => 'reports/annual-2024.pdf'].
+    |
+    */
+
+    'reports' => [],
 
     /*
     |--------------------------------------------------------------------------

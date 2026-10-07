@@ -25,6 +25,11 @@
         scroll-behavior: smooth;
     }
 
+    /* Page stays still while the preloader is up */
+    html.is-loading {
+        overflow: hidden;
+    }
+
     body {
         @apply bg-night font-sans text-white antialiased;
     }
@@ -157,6 +162,18 @@
     }
 }
 
+@keyframes preloader-label {
+    from {
+        opacity: 0;
+        translate: 0 8px;
+    }
+}
+
+/* Preloader HUD labels fade in around the brain */
+.preloader-label {
+    animation: preloader-label 0.9s var(--ease-out-expo) both;
+}
+
 @keyframes road-dash {
     to {
         stroke-dashoffset: 28;
@@ -233,6 +250,7 @@
     .road-dash,
     .animate-pulse-ring,
     .animate-blink,
+    .preloader-label,
     .animate-marquee {
         animation: none;
     }

@@ -1,13 +1,24 @@
+@props([
+    'title' => null,
+    'description' => null,
+])
+
 {{--
     Page title, search meta, Open Graph / Facebook business tags, Twitter card
-    and schema.org NGO data — all driven by config('rural2rural').
+    and schema.org NGO data — all driven by config('rural2rural'). Inner pages
+    pass their own title and description; the home page uses the defaults.
 --}}
 @php
     $site = config('rural2rural');
-    $seo = $site['seo'];
     $contact = $site['contact'];
     $postal = $contact['postal'];
     $homeUrl = route('home');
+    $pageUrl = request()->routeIs('home') ? $homeUrl : url()->current();
+    $seo = array_merge($site['seo'], array_filter([
+        'title' => $title ? $title.' — Rural2Rural' : null,
+        'share_title' => $title ? $title.' | Rural2Rural (R2R)' : null,
+        'description' => $description,
+    ]));
 
     $versioned = fn (string $path): string => asset($path).'?v='.(file_exists(public_path($path)) ? filemtime(public_path($path)) : '1');
     $shareImage = $versioned('images/og/rural2rural-og.png');
@@ -23,7 +34,7 @@
         'url' => $homeUrl,
         'logo' => asset('images/rural2rural.png'),
         'image' => $shareImage,
-        'description' => $seo['description'],
+        'description' => $site['seo']['description'],
         'slogan' => $seo['slogan'],
         'email' => $contact['email'],
         'telephone' => $contact['phone'],
@@ -50,14 +61,14 @@
 <meta name="keywords" content="{{ $seo['keywords'] }}">
 <meta name="author" content="Rural2Rural">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<link rel="canonical" href="{{ $homeUrl }}">
+<link rel="canonical" href="{{ $pageUrl }}">
 <link rel="apple-touch-icon" href="{{ asset('images/r2r/mark.png') }}">
 
 {{-- Open Graph (WhatsApp, Facebook, LinkedIn, Slack, Teams) --}}
 <meta property="og:type" content="business.business">
 <meta property="og:site_name" content="Rural2Rural">
 <meta property="og:locale" content="en_ZA">
-<meta property="og:url" content="{{ $homeUrl }}">
+<meta property="og:url" content="{{ $pageUrl }}">
 <meta property="og:title" content="{{ $seo['share_title'] }}">
 <meta property="og:description" content="{{ $seo['description'] }}">
 <meta property="og:image" content="{{ $shareImage }}">

@@ -91,7 +91,7 @@ test('r2rBot system prompt is grounded in the site content', function () {
         ->toContain('info@rural2rural.co.za')
         ->toContain('+27 12 440 1325')
         ->toContain('R2R Tutor Programme')
-        ->toContain('Careers & Skills Expo, Jozini, 03 Aug 2018')
+        ->toContain('Careers & Skills Expo, KwaZulu-Natal, 03 Aug 2018')
         ->toContain('EWSETA (Energy and Water Sector Education and Training Authority)')
         ->toContain('Never invent dates');
 });
