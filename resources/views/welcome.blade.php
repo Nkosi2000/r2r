@@ -553,7 +553,7 @@
                                     <p class="text-lg">Who We Serve</p>
                                     <span class="flex items-center gap-1.5 bg-white/15 px-2 py-1 font-mono text-[8px] tracking-[0.1em] uppercase ring-1 ring-white/25"><i class="animate-blink size-1 bg-lime"></i>No one left behind</span>
                                 </div>
-                                @foreach (['Learners' => 14.6, 'Youth' => 30.2, 'Women' => 45.8, 'SMMEs' => 64.6, 'Disabilities' => 82.5] as $label => $left)
+                                @foreach (['Learners' => 14.6, 'Youth' => 30.2, 'Teachers' => 45.8, 'SMMEs' => 64.6, 'Disabilities' => 82.5] as $label => $left)
                                     <span class="absolute top-[90%] -translate-x-1/2 -translate-y-1/2 font-mono text-[8px] tracking-[0.08em] uppercase sm:text-[9px]" style="left: {{ $left }}%">{{ $label }}</span>
                                 @endforeach
                             </div>
