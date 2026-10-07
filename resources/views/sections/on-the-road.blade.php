@@ -1,5 +1,5 @@
 {{-- ─────────────── 08 · On the road (dot map) ─────────────── --}}
-<section id="events" class="relative border-t border-white/10 bg-night" aria-labelledby="events-title">
+<section id="events" class="relative overflow-x-clip border-t border-white/10 bg-night" aria-labelledby="events-title">
     <x-rail />
     <div class="{{ $gutter }} grid gap-14 py-24 lg:grid-cols-[1fr_1.6fr] lg:py-28">
         <div class="flex flex-col">

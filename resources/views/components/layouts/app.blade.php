@@ -321,7 +321,7 @@
             <button type="button" data-r2rbot-toggle aria-expanded="false" aria-controls="r2rbot-panel" class="flex h-10 items-center gap-2 rounded-full bg-green pr-3.5 pl-1 text-night shadow-[0_8px_28px_-10px_rgba(125,191,69,0.7)] transition-transform duration-300 hover:-translate-y-0.5">
                 <span class="relative">
                     <img src="{{ asset('images/r2r/mark.png') }}" alt="" class="size-8 rounded-full">
-                    <span class="animate-pulse-ring absolute inset-0 rounded-full bg-white/60" aria-hidden="true"></span>
+                    <span class="animate-pulse-halo absolute inset-0 rounded-full" aria-hidden="true"></span>
                 </span>
                 <span data-r2rbot-toggle-label class="font-mono text-[11px] font-medium tracking-[0.06em]">Ask r2rBot</span>
             </button>
