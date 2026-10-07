@@ -144,6 +144,17 @@
     .is-revealed .route {
         stroke-dashoffset: 0;
     }
+
+    /* Doors swing open on their left hinge */
+    .door-leaf {
+        transform-box: fill-box;
+        transform-origin: left center;
+        transition: scale 1.6s var(--ease-out-expo);
+    }
+
+    .is-revealed .door-leaf {
+        scale: -0.35 1;
+    }
 }
 
 @keyframes road-dash {
@@ -211,6 +222,11 @@
     .rosette path,
     .route {
         stroke-dashoffset: 0;
+        transition: none;
+    }
+
+    .door-leaf {
+        scale: -0.35 1;
         transition: none;
     }
 

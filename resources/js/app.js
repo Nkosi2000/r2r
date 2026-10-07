@@ -1,6 +1,5 @@
 import { DotMap } from './effects/dot-map';
 import { DotMatrix } from './effects/dot-matrix';
-import { DotWave } from './effects/dot-wave';
 import { drawRosettes } from './effects/rosette';
 import { prefersReducedMotion } from './effects/visibility';
 import { initBackToTop } from './ui/back-to-top';
@@ -12,7 +11,6 @@ const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 
 function initCanvases() {
     document.querySelectorAll('canvas[data-dot-map]').forEach((canvas) => new DotMap(canvas));
-    document.querySelectorAll('canvas[data-dot-wave]').forEach((canvas) => new DotWave(canvas));
     document.querySelectorAll('canvas[data-dot-matrix]').forEach((canvas) => {
         canvas.dotMatrix = new DotMatrix(canvas);
     });
