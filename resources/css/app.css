@@ -146,9 +146,9 @@
     }
 }
 
-@keyframes spin-slow {
+@keyframes road-dash {
     to {
-        rotate: 360deg;
+        stroke-dashoffset: 28;
     }
 }
 
@@ -176,12 +176,9 @@
     }
 }
 
-.animate-spin-slow {
-    animation: spin-slow 28s linear infinite;
-}
-
-.animate-spin-reverse {
-    animation: spin-slow 40s linear infinite reverse;
+/* Road centre line streams toward the viewer, as if driving */
+.road-dash {
+    animation: road-dash 1.4s linear infinite;
 }
 
 .animate-pulse-ring {
@@ -217,8 +214,7 @@
         transition: none;
     }
 
-    .animate-spin-slow,
-    .animate-spin-reverse,
+    .road-dash,
     .animate-pulse-ring,
     .animate-blink,
     .animate-marquee {
