@@ -4,6 +4,7 @@ use App\Models\Event;
 use App\Models\Partner;
 use App\Models\Report;
 use App\Models\SiteSetting;
+use Illuminate\Support\Facades\Route;
 
 test('an upcoming event is listed under upcoming and placed on the map', function () {
     Event::factory()->upcoming()->create([
@@ -46,6 +47,22 @@ test('editing a setting updates the site straight away', function () {
     $this->get(route('contact'))
         ->assertSee('+27 12 000 0000')
         ->assertDontSee('+27 12 440 1325');
+});
+
+test('the deploy health check passes when the database and content are ready', function () {
+    $this->get('/up')->assertOk();
+});
+
+test('the deploy health check fails when the site content is missing', function () {
+    SiteSetting::query()->get()->each->delete();
+
+    $this->get('/up')->assertServerError();
+});
+
+test('the deploy health check fails when a page cannot render', function () {
+    Route::view('/broken-page', 'pages.does-not-exist');
+
+    $this->get('/up')->assertServerError();
 });
 
 test('a new partner appears on the home page strip and partners page', function () {

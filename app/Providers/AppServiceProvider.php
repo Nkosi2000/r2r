@@ -33,8 +33,12 @@ class AppServiceProvider extends ServiceProvider
     {
         View::share('gutter', 'px-4 sm:px-8 lg:pr-12 lg:pl-[136px]');
 
-        // Content comes from the database, so it is only loaded once a view actually renders.
-        View::composer('*', fn (ViewContract $view) => $view->with(app(SiteContent::class)->viewData()));
+        // Content comes from the database, so it is only loaded once one of the site's own views renders.
+        // Error pages are deliberately left out so they still render when the database is unreachable.
+        View::composer(
+            ['components.layouts.*', 'components.seo', 'components.page-header', 'pages.*', 'sections.*'],
+            fn (ViewContract $view) => $view->with(app(SiteContent::class)->viewData()),
+        );
 
         RateLimiter::for('r2rbot', function (Request $request): array {
             $tooManyRequests = fn (): JsonResponse => response()->json([

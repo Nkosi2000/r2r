@@ -11,6 +11,8 @@ use App\Models\Programme;
 use App\Models\Report;
 use App\Models\ResourceLink;
 use App\Models\SiteSetting;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -179,15 +181,40 @@ class SiteContent
      */
     private function content(): array
     {
-        return $this->content ??= Cache::rememberForever(self::CACHE_KEY, fn (): array => [
-            'settings' => SiteSetting::query()->pluck('value', 'key')->all(),
-            'pillars' => Pillar::query()->orderBy('position')->get(),
-            'programmes' => Programme::query()->orderBy('position')->get(),
-            'partners' => Partner::query()->orderBy('position')->get(),
-            'events' => Event::query()->orderByDesc('held_on')->get(),
-            'media' => MediaItem::query()->orderBy('position')->get(),
-            'resources' => ResourceLink::query()->orderBy('position')->get(),
-            'reports' => Report::query()->orderByDesc('year')->get(),
+        if ($this->content !== null) {
+            return $this->content;
+        }
+
+        // The cache only holds plain rows (it refuses to unserialize objects), so models are rebuilt from them.
+        $rows = Cache::rememberForever(self::CACHE_KEY, fn (): array => [
+            'settings' => SiteSetting::query()->toBase()->pluck('value', 'key')->all(),
+            'pillars' => $this->rows(Pillar::query()->orderBy('position')),
+            'programmes' => $this->rows(Programme::query()->orderBy('position')),
+            'partners' => $this->rows(Partner::query()->orderBy('position')),
+            'events' => $this->rows(Event::query()->orderByDesc('held_on')),
+            'media' => $this->rows(MediaItem::query()->orderBy('position')),
+            'resources' => $this->rows(ResourceLink::query()->orderBy('position')),
+            'reports' => $this->rows(Report::query()->orderByDesc('year')),
         ]);
+
+        return $this->content = [
+            'settings' => array_map(fn (string $json): mixed => json_decode($json, true), $rows['settings']),
+            'pillars' => Pillar::hydrate($rows['pillars'])->toBase(),
+            'programmes' => Programme::hydrate($rows['programmes'])->toBase(),
+            'partners' => Partner::hydrate($rows['partners'])->toBase(),
+            'events' => Event::hydrate($rows['events'])->toBase(),
+            'media' => MediaItem::hydrate($rows['media'])->toBase(),
+            'resources' => ResourceLink::hydrate($rows['resources'])->toBase(),
+            'reports' => Report::hydrate($rows['reports'])->toBase(),
+        ];
+    }
+
+    /**
+     * @param  Builder<covariant Model>  $query
+     * @return array<int, array<string, mixed>>
+     */
+    private function rows(Builder $query): array
+    {
+        return $query->toBase()->get()->map(fn (object $row): array => (array) $row)->all();
     }
 }
