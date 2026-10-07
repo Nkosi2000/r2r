@@ -460,8 +460,7 @@
                                     <path d="M0 200 H480 M0 232 H480" stroke="white" stroke-opacity="0.6" />
                                     <path d="M0 216 H480" stroke="#a6d77a" stroke-width="1.5" stroke-dasharray="8 6" class="road-dash" />
 
-                                    @foreach ([70, 175, 280, 385] as $stopX)
-                                        @php($arrival = ($stopX + 36) / 580)
+                                    @foreach ([70 => 0.183, 175 => 0.364, 280 => 0.545, 385 => 0.726] as $stopX => $arrival)
                                         <g transform="translate({{ $stopX }} 198) scale(2.4)" stroke="white" stroke-opacity="0.75">
                                             <path d="M-5 0 V-6 H5 V0 M-1 0 V-3 H1 V0" vector-effect="non-scaling-stroke" />
                                             <path d="M-7 -6 L0 -13 L7 -6 Z" fill="#7dbf45" fill-opacity="0.3" vector-effect="non-scaling-stroke" />
