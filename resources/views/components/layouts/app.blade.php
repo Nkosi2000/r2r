@@ -45,7 +45,7 @@
         <x-seo :title="$title" :description="$description" />
         <meta name="theme-color" content="#0c1035">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="icon" type="image/png" href="{{ asset('images/r2r/mark.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('images/r2r/favicon.png') }}">
 
         @fonts
 
