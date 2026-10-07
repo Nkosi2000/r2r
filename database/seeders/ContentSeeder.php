@@ -83,10 +83,10 @@ class ContentSeeder extends Seeder
     private function seedPillars(): void
     {
         $pillars = [
-            ['step' => 'First', 'verb' => 'Careers', 'figure' => 'signpost', 'title' => 'Careers & Job Opportunities', 'body' => 'Career development roadshows, tutoring and guidance that open real career paths.'],
-            ['step' => 'Second', 'verb' => 'Skills', 'figure' => 'gears', 'title' => 'Skills Training Workshops', 'body' => 'Soft skills, employability and work-readiness training for rural youth.'],
-            ['step' => 'Third', 'verb' => 'Enterprise', 'figure' => 'stall', 'title' => 'Entrepreneurship Opportunities', 'body' => 'Roadshows, trainings, pitch competitions and SMME coaching & mentoring.'],
-            ['step' => 'Last', 'verb' => 'Teachers', 'figure' => 'chalkboard', 'title' => 'Teacher Development Programmes', 'body' => 'Capacitation workshops distributed across rural communities and municipalities.'],
+            ['step' => 'First', 'verb' => 'Careers', 'figure' => 'signpost', 'title' => 'Careers & Job Opportunities', 'body' => 'Career Development programme and RoadShow, R2R Tutor Programme ( Maths, Science and Accounting Extra Classes), Teachers Capacitation Programme and Rural Teachers Summit'],
+            ['step' => 'Second', 'verb' => 'Skills', 'figure' => 'gears', 'title' => 'Skills Training Workshops', 'body' => 'R2R Skills and Job Opportunities Roadshow, Soft Skills training programme, Employability/Work readiness skills programme, Job Readiness Programme and R2R Skills and Job Application Centre'],
+            ['step' => 'Third', 'verb' => 'Enterprise', 'figure' => 'stall', 'title' => 'Entrepreneurship Opportunities', 'body' => 'R2R Entrepreneurship Opportunities Roadshow, R2R Entrepreneurship trainings and workshops, R2R Business Idea Pitch Competition and Rural SMME Coaching /Mentoring Programme'],
+            ['step' => 'Last', 'verb' => 'Teachers', 'figure' => 'chalkboard', 'title' => 'Teacher Development Programmes', 'body' => 'Distributed Across SA rural communities and Municipalities'],
         ];
 
         foreach ($pillars as $position => $pillar) {

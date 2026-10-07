@@ -25,7 +25,7 @@
 
             <div class="fade-up max-w-sm delay-500">
                 <p class="text-[15px] leading-relaxed text-white/75">
-                    A programme that travels across rural South Africa, educating, training, exposing and advising youth, women, small businesses and people living with disabilities.
+                    Rural2Rural is a Skills, Jobs, Careers and Entrepreneurship initiative programme that travels across rural South Africa aimed at educating, training, exposing and advising (Small Businesses, Youth, Women and people living with Disabilities) in rural areas to engage in further education and career opportunities, skills development, entrepreneurship opportunities, training and employment opportunities.
                 </p>
                 <div class="mt-7 flex flex-wrap gap-3">
                     <x-button href="#programmes">Explore programmes</x-button>
