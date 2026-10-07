@@ -4,6 +4,7 @@ use App\Models\Event;
 use App\Models\Partner;
 use App\Models\Report;
 use App\Models\SiteSetting;
+use Database\Seeders\ContentSeeder;
 use Illuminate\Support\Facades\Route;
 
 test('an upcoming event is listed under upcoming and placed on the map', function () {
@@ -63,6 +64,15 @@ test('the deploy health check fails when a page cannot render', function () {
     Route::view('/broken-page', 'pages.does-not-exist');
 
     $this->get('/up')->assertServerError();
+});
+
+test('re-running the content seeder keeps edits made in the database', function () {
+    Partner::query()->where('name', 'TETA')->firstOrFail()->update(['description' => 'Edited description']);
+
+    $this->seed(ContentSeeder::class);
+
+    expect(Partner::query()->where('name', 'TETA')->value('description'))->toBe('Edited description')
+        ->and(Partner::query()->where('name', 'TETA')->count())->toBe(1);
 });
 
 test('a new partner appears on the home page strip and partners page', function () {

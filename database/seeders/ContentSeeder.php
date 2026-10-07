@@ -14,8 +14,9 @@ use App\Support\SiteContent;
 use Illuminate\Database\Seeder;
 
 /**
- * The site's launch content. Safe to run again: rows are matched on their
- * natural key and updated rather than duplicated.
+ * The site's launch content. Safe to run on every deploy: rows are matched on
+ * their natural key and only created when missing, so edits made in the
+ * database are never overwritten.
  */
 class ContentSeeder extends Seeder
 {
@@ -75,7 +76,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($settings as $key => $value) {
-            SiteSetting::query()->updateOrCreate(['key' => $key], ['value' => $value]);
+            SiteSetting::query()->firstOrCreate(['key' => $key], ['value' => $value]);
         }
     }
 
@@ -89,7 +90,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($pillars as $position => $pillar) {
-            Pillar::query()->updateOrCreate(['verb' => $pillar['verb']], [...$pillar, 'position' => $position + 1]);
+            Pillar::query()->firstOrCreate(['verb' => $pillar['verb']], [...$pillar, 'position' => $position + 1]);
         }
     }
 
@@ -109,7 +110,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($programmes as $position => $programme) {
-            Programme::query()->updateOrCreate(['title' => $programme['title']], [...$programme, 'position' => $position + 1]);
+            Programme::query()->firstOrCreate(['title' => $programme['title']], [...$programme, 'position' => $position + 1]);
         }
     }
 
@@ -126,7 +127,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($partners as $position => $partner) {
-            Partner::query()->updateOrCreate(['name' => $partner['name']], [...$partner, 'position' => $position + 1]);
+            Partner::query()->firstOrCreate(['name' => $partner['name']], [...$partner, 'position' => $position + 1]);
         }
     }
 
@@ -139,7 +140,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($events as $event) {
-            Event::query()->updateOrCreate(['title' => $event['title'], 'place' => $event['place']], $event);
+            Event::query()->firstOrCreate(['title' => $event['title'], 'place' => $event['place']], $event);
         }
     }
 
@@ -160,7 +161,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($media as $position => $item) {
-            MediaItem::query()->updateOrCreate(['type' => $item['type'], 'path' => $item['path']], [...$item, 'position' => $position + 1]);
+            MediaItem::query()->firstOrCreate(['type' => $item['type'], 'path' => $item['path']], [...$item, 'position' => $position + 1]);
         }
     }
 
@@ -176,7 +177,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($links as $position => $link) {
-            ResourceLink::query()->updateOrCreate(['url' => $link['url']], [...$link, 'position' => $position + 1]);
+            ResourceLink::query()->firstOrCreate(['url' => $link['url']], [...$link, 'position' => $position + 1]);
         }
     }
 }
