@@ -316,7 +316,7 @@
                             </div>
 
                             <div class="relative flex flex-1 items-center justify-center py-8">
-                                <svg data-rosette="{{ $pillar['figure'] }}" class="rosette size-40 text-white/75 transition-[rotate,color] duration-[2000ms] ease-out-expo group-[.is-active]:rotate-45 group-[.is-active]:text-white" aria-hidden="true"></svg>
+                                <svg data-rosette="{{ $pillar['figure'] }}" class="rosette size-40 text-white/75 transition-[scale,color] duration-[2000ms] ease-out-expo group-[.is-active]:scale-110 group-[.is-active]:text-white" aria-hidden="true"></svg>
                             </div>
 
                             <div class="relative">

@@ -85,10 +85,10 @@ return [
     */
 
     'pillars' => [
-        ['step' => 'First', 'verb' => 'Careers', 'figure' => 'bloom', 'title' => 'Careers & Job Opportunities', 'body' => 'Career development roadshows, tutoring and guidance that open real career paths.'],
-        ['step' => 'Second', 'verb' => 'Skills', 'figure' => 'orbit', 'title' => 'Skills Training Workshops', 'body' => 'Soft skills, employability and work-readiness training for rural youth.'],
-        ['step' => 'Third', 'verb' => 'Enterprise', 'figure' => 'burst', 'title' => 'Entrepreneurship Opportunities', 'body' => 'Roadshows, trainings, pitch competitions and SMME coaching & mentoring.'],
-        ['step' => 'Last', 'verb' => 'Teachers', 'figure' => 'seed', 'title' => 'Teacher Development Programmes', 'body' => 'Capacitation workshops distributed across rural communities and municipalities.'],
+        ['step' => 'First', 'verb' => 'Careers', 'figure' => 'signpost', 'title' => 'Careers & Job Opportunities', 'body' => 'Career development roadshows, tutoring and guidance that open real career paths.'],
+        ['step' => 'Second', 'verb' => 'Skills', 'figure' => 'gears', 'title' => 'Skills Training Workshops', 'body' => 'Soft skills, employability and work-readiness training for rural youth.'],
+        ['step' => 'Third', 'verb' => 'Enterprise', 'figure' => 'stall', 'title' => 'Entrepreneurship Opportunities', 'body' => 'Roadshows, trainings, pitch competitions and SMME coaching & mentoring.'],
+        ['step' => 'Last', 'verb' => 'Teachers', 'figure' => 'chalkboard', 'title' => 'Teacher Development Programmes', 'body' => 'Capacitation workshops distributed across rural communities and municipalities.'],
     ],
 
     /*
