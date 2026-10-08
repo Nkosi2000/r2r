@@ -1,5 +1,6 @@
 @php
-    $directionsUrl = 'https://www.google.com/maps/search/?api=1&query='.rawurlencode(implode(', ', [...$contact['address'], $contact['postal']['country_name']]));
+    $googleMaps = $contact['google_maps'] ?? null;
+    $directionsUrl = $googleMaps['url'] ?? 'https://www.google.com/maps/search/?api=1&query='.rawurlencode(implode(', ', [...$contact['address'], $contact['postal']['country_name']]));
     $channels = [
         ['label' => 'Office', 'value' => $contact['phone'], 'href' => 'tel:'.str_replace(' ', '', $contact['phone']), 'action' => 'Call'],
         ['label' => 'Mobile', 'value' => $contact['mobile'], 'href' => 'tel:'.str_replace(' ', '', $contact['mobile']), 'action' => 'Call'],
@@ -51,5 +52,25 @@
                 </div>
             </div>
         </div>
+
+        {{-- Live Google map of the office --}}
+        @if ($googleMaps)
+            <div class="px-4 pb-24 sm:px-8 lg:pr-12 lg:pb-28 lg:pl-[136px]">
+                <figure class="overflow-hidden bg-white ring-1 ring-navy/10">
+                    <iframe
+                        src="https://maps.google.com/maps?q={{ $googleMaps['latitude'] }},{{ $googleMaps['longitude'] }}&z=16&hl=en&output=embed"
+                        title="Map showing the Rural2Rural office at {{ $googleMaps['place'] }}"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen
+                        class="block h-[360px] w-full border-0 sm:h-[440px]"
+                    ></iframe>
+                    <figcaption class="flex flex-wrap items-center justify-between gap-3 border-t border-navy/10 px-5 py-4">
+                        <span class="flex items-center gap-2 font-mono text-[10px] tracking-[0.1em] text-navy/70 uppercase"><i class="size-1.5 rounded-full bg-green"></i>{{ $googleMaps['place'] }} · {{ $contact['postal']['locality'] }}</span>
+                        <a href="{{ $googleMaps['url'] }}" target="_blank" rel="noopener" class="font-mono text-[10px] tracking-[0.1em] text-blue uppercase underline-offset-4 hover:underline">Open in Google Maps <span aria-hidden="true">↗</span></a>
+                    </figcaption>
+                </figure>
+            </div>
+        @endif
     </section>
 </x-layouts.app>

@@ -84,7 +84,7 @@ class SiteContent
     }
 
     /**
-     * @return array{email: string, phone: string, mobile: string, address: array<int, string>, postal: array<string, string>, map: array{latitude: float, longitude: float}}
+     * @return array{email: string, phone: string, mobile: string, address: array<int, string>, postal: array<string, string>, map: array{latitude: float, longitude: float}, google_maps?: array{place: string, url: string, latitude: float, longitude: float}}
      */
     public function contact(): array
     {

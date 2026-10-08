@@ -61,3 +61,11 @@ test('the contact page shows the office address', function () {
         ->assertSeeInOrder(['28 Panorama Road', 'Rooihuiskraal', 'Centurion', '0157'])
         ->assertDontSee('Von Willich');
 });
+
+test('the contact page embeds a live map of the office', function () {
+    $this->get(route('contact'))
+        ->assertOk()
+        ->assertSee('https://maps.google.com/maps?q=-25.8532455,28.1956626&z=16&hl=en&output=embed', false)
+        ->assertSee('Corporate Park 66')
+        ->assertSee('https://maps.app.goo.gl/vDi3Zg1EoHLXSjEk8', false);
+});

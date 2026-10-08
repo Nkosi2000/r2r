@@ -60,6 +60,7 @@ class ContentSeeder extends Seeder
                     'country_code' => 'ZA',
                 ],
                 'map' => ['label' => 'Gauteng · HQ', 'latitude' => -25.88, 'longitude' => 28.14],
+                'google_maps' => ['place' => 'Corporate Park 66', 'url' => 'https://maps.app.goo.gl/vDi3Zg1EoHLXSjEk8', 'latitude' => -25.8532455, 'longitude' => 28.1956626],
             ],
             'seo' => [
                 'title' => 'Rural2Rural — Delivering Real Opportunities to Rural Communities',
