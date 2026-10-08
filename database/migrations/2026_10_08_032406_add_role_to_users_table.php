@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
+     * On Postgres 18 a schema lookup can abort the migration's transaction without raising,
+     * silently discarding the ALTER TABLE, so this runs outside a transaction.
+     */
+    public $withinTransaction = false;
+
+    /**
      * Run the migrations.
      */
     public function up(): void
