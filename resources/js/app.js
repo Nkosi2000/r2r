@@ -3,6 +3,7 @@ import { DotMatrix } from './effects/dot-matrix';
 import { drawRosettes } from './effects/rosette';
 import { prefersReducedMotion } from './effects/visibility';
 import { initBackToTop } from './ui/back-to-top';
+import { initEventFilters } from './ui/event-filters';
 import { initPreloader } from './ui/preloader';
 import { initR2rBot } from './ui/r2rbot';
 import { initSearch } from './ui/search';
@@ -257,6 +258,7 @@ initPixelBlocks();
 initHeroGlow();
 initMobileMenu();
 initSocialSidebar();
+initEventFilters();
 
 const r2rBot = initR2rBot();
 initSearch({ askBot: r2rBot ? (question) => r2rBot.open(question) : undefined });

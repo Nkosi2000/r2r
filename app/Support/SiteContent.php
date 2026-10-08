@@ -132,6 +132,16 @@ class SiteContent
     }
 
     /**
+     * Every event, newest first.
+     *
+     * @return Collection<int, Event>
+     */
+    public function events(): Collection
+    {
+        return $this->content()['events'];
+    }
+
+    /**
      * @return Collection<int, Event>
      */
     public function upcomingEvents(): Collection
