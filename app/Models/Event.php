@@ -20,6 +20,23 @@ class Event extends Model
     use FlushesSiteContent, HasFactory;
 
     /**
+     * South Africa's provinces with a central point, used to pin an event on the map when no exact location is given.
+     *
+     * @var array<string, array{0: float, 1: float}> province => [latitude, longitude]
+     */
+    public const PROVINCES = [
+        'Eastern Cape' => [-32.30, 26.42],
+        'Free State' => [-28.45, 26.80],
+        'Gauteng' => [-26.27, 28.11],
+        'KwaZulu-Natal' => [-28.53, 30.90],
+        'Limpopo' => [-23.40, 29.42],
+        'Mpumalanga' => [-25.57, 30.53],
+        'North West' => [-26.66, 25.28],
+        'Northern Cape' => [-29.05, 21.86],
+        'Western Cape' => [-33.23, 21.86],
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

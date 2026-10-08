@@ -92,6 +92,23 @@
         box-shadow: 0 0 0 4px rgb(125 191 69 / 0.15);
     }
 
+    /* CMS tables */
+    .admin-table {
+        @apply w-full border-collapse bg-white text-left text-[14px];
+    }
+
+    .admin-table th {
+        @apply border-b border-navy/15 px-4 py-3 font-mono text-[10px] font-normal tracking-[0.1em] whitespace-nowrap text-navy/55 uppercase;
+    }
+
+    .admin-table td {
+        @apply border-b border-navy/10 px-4 py-3 align-middle;
+    }
+
+    .admin-table tbody tr:hover {
+        @apply bg-paper/70;
+    }
+
     /* Line-by-line headline reveal */
     .reveal-line {
         @apply block overflow-hidden pb-[0.08em];

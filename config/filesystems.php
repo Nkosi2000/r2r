@@ -60,6 +60,24 @@ return [
             'report' => false,
         ],
 
+        /*
+         * Files uploaded through the CMS (logos, photos, videos, report PDFs), stored in the
+         * Neon Object Storage "public_read" bucket. Neon requires path-style addressing, and
+         * public objects are read anonymously at {endpoint}/{bucket}/{key}.
+         */
+        'uploads' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_REGION', env('AWS_DEFAULT_REGION', 'us-east-2')),
+            'bucket' => env('AWS_BUCKET'),
+            'endpoint' => env('AWS_ENDPOINT_URL_S3'),
+            'url' => rtrim((string) env('AWS_ENDPOINT_URL_S3'), '/').'/'.env('AWS_BUCKET'),
+            'use_path_style_endpoint' => true,
+            'throw' => true,
+            'report' => true,
+        ],
+
     ],
 
     /*

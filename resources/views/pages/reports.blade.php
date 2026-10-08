@@ -20,7 +20,7 @@
                     <ul class="mt-10 border-t border-white/10">
                         @foreach ($reports as $report)
                             <li class="border-b border-white/10">
-                                <a href="{{ asset($report['file']) }}" target="_blank" rel="noopener" class="group flex items-center justify-between gap-4 py-5 transition-colors hover:text-green">
+                                <a href="{{ $report->file_url }}" target="_blank" rel="noopener" class="group flex items-center justify-between gap-4 py-5 transition-colors hover:text-green">
                                     <span class="flex items-baseline gap-5">
                                         <span class="font-mono text-[11px] text-green">{{ $report['year'] }}</span>
                                         <span class="text-lg">{{ $report['title'] }}</span>

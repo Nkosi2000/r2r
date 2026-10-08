@@ -23,7 +23,7 @@
                     <li class="group fade-up mb-4 break-inside-avoid" style="transition-delay: {{ min($loop->index, 5) * 80 }}ms">
                         <figure>
                             <div class="overflow-hidden">
-                                <img src="{{ asset($photo->path) }}" alt="{{ $photo->title }}" loading="lazy" class="w-full object-cover grayscale-[60%] transition duration-700 ease-out-expo group-hover:scale-105 group-hover:grayscale-0">
+                                <img src="{{ $photo->url }}" alt="{{ $photo->title }}" loading="lazy" class="w-full object-cover grayscale-[60%] transition duration-700 ease-out-expo group-hover:scale-105 group-hover:grayscale-0">
                             </div>
                             <figcaption class="mt-2 flex items-center gap-2 font-mono text-[10px] tracking-[0.08em] text-navy/70 uppercase"><i class="size-1.5 bg-green"></i>{{ $photo->title }}</figcaption>
                         </figure>
@@ -47,7 +47,7 @@
                         <figure class="glass-card fade-up delay-150">
                             <div class="glass-inner">
                                 <video controls preload="metadata" playsinline class="aspect-video w-full bg-night">
-                                    <source src="{{ asset($video->path) }}" type="video/mp4">
+                                    <source src="{{ $video->url }}" type="video/mp4">
                                 </video>
                             </div>
                             <figcaption class="relative mt-3 flex items-center justify-between font-mono text-[10px] tracking-[0.08em] uppercase">
@@ -72,7 +72,7 @@
                     <ul class="mt-10 grid gap-6 md:grid-cols-2">
                         @foreach ($publications as $publication)
                             <li class="fade-up flex flex-col gap-4 border border-white/10 p-4 delay-150 sm:flex-row sm:items-center">
-                                <img src="{{ asset($publication->path) }}" alt="Cover of {{ $publication->title }}" loading="lazy" class="aspect-[4/3] w-full object-cover sm:w-40">
+                                <img src="{{ $publication->url }}" alt="Cover of {{ $publication->title }}" loading="lazy" class="aspect-[4/3] w-full object-cover sm:w-40">
                                 <div>
                                     <p class="font-mono text-[10px] tracking-[0.1em] text-green uppercase">Magazine</p>
                                     <h3 class="mt-2 text-lg leading-snug">{{ $publication->title }}</h3>

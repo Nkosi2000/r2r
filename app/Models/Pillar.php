@@ -16,4 +16,16 @@ class Pillar extends Model
 {
     /** @use HasFactory<PillarFactory> */
     use FlushesSiteContent, HasFactory;
+
+    /**
+     * Line-art drawings available in resources/js/effects/rosette.js.
+     *
+     * @var array<string, string> figure key => label
+     */
+    public const FIGURES = [
+        'signpost' => 'Signpost',
+        'gears' => 'Gears',
+        'stall' => 'Market stall',
+        'chalkboard' => 'Chalkboard',
+    ];
 }
